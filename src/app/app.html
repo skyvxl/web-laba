@@ -1,158 +1,113 @@
 <div class="container mx-auto max-w-4xl bg-white overflow-hidden text-sm">
-  <header class="bg-[#ff8000] p-4 text-white">
-    <div class="flex justify-between items-center">
-      <div class="text-xl font-bold w-1/5">
-        <img src="image.png" class="h-24" width="96px" alt="DNS логотип, 96x96px" />
-      </div>
+  <header>
+    <div class="bg-[#ff8000] p-4 text-white">
+      <div class="flex justify-between items-center">
+        <div class="text-xl font-bold w-1/5">
+          <img
+            src="image.png"
+            class="h-24"
+            width="96px"
+            alt="DNS логотип, 96x96px"
+            title="DNS логотип, 96x96px"
+          />
+        </div>
 
-      <div class="text-center w-3/5">
-        <h1 class="text-3xl font-bold uppercase">DNS - Магазин Электроники</h1>
-      </div>
+        <div class="text-left w-3/5">
+          <h1 class="text-3xl font-bold uppercase">DNS - Магазин Электроники</h1>
+        </div>
 
-      <div class="w-1/5">
-        <form class="flex flex-col gap-2">
-          <div>
-            <input type="text" placeholder="логин" class="w-full p-1 text-black bg-white" />
-          </div>
-          <div>
-            <input type="password" placeholder="пароль" class="w-full p-1 text-black bg-white" />
-          </div>
-          <div class="flex gap-2 items-center justify-between">
-            <button
-              type="submit"
-              class="bg-gray-700 text-white px-3 py-1 hover:bg-gray-600 transition-colors text-sm"
-            >
-              войти
-            </button>
-            <a href="#" class="text-white hover:underline text-sm">регистрация</a>
-          </div>
-        </form>
+        <div class="w-1/5">
+          <form class="flex flex-col gap-2">
+            <div>
+              <input type="text" placeholder="логин" class="w-full p-1 text-black bg-white" />
+            </div>
+            <div>
+              <input type="password" placeholder="пароль" class="w-full p-1 text-black bg-white" />
+            </div>
+            <div class="flex gap-2 items-center justify-between">
+              <button
+                type="submit"
+                class="bg-gray-700 text-white px-5 py-1 hover:bg-gray-600 transition-colors text-sm cursor-pointer"
+              >
+                войти
+              </button>
+              <a href="#" class="text-white hover:underline text-sm">регистрация</a>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
+
+    <nav class="bg-orange-300 p-2">
+      <div class="flex justify-evenly items-center">
+        <a routerLink="/" class="font-semibold text-white hover:underline hover:cursor-pointer"
+          >Главная</a
+        >
+        <a routerLink="/about" class="font-semibold text-white hover:underline hover:cursor-pointer"
+          >О нас</a
+        >
+        <a
+          routerLink="/catalog"
+          class="font-semibold text-white hover:underline hover:cursor-pointer"
+          >Каталог</a
+        >
+        <a
+          routerLink="/contacts"
+          class="font-semibold text-white hover:underline hover:cursor-pointer"
+          >Контакты</a
+        >
+      </div>
+    </nav>
   </header>
-  <nav class="bg-orange-300 p-2">
-    <div class="flex justify-evenly items-center">
-      <a href="#" class="font-semibold text-white hover:underline">Смартфоны</a>
-      <a href="#" class="font-semibold text-white hover:underline">Ноутбуки</a>
-      <a href="#" class="font-semibold text-white hover:underline">Бытовая техника</a>
-      <a href="#" class="font-semibold text-white hover:underline">Аксессуары</a>
-    </div>
-  </nav>
 
   <div class="grid grid-cols-6 gap-4 pt-4">
+    <!-- left aside -->
     <aside class="col-span-1 bg-[#ff8000] text-white p-4 text-center">
       <nav class="flex flex-col gap-2">
-        <a href="#" class="block p-1 hover:underline">Главная</a>
-        <a href="#" class="block p-1 hover:underline">О нас</a>
-        <a href="#" class="block p-1 hover:underline">Каталог</a>
-        <a href="#" class="block p-1 hover:underline">Контакты</a>
+        <a href="#" class="block p-1 hover:underline">Смартфоны</a>
+        <a href="#" class="block p-1 hover:underline">Ноутбуки</a>
+        <a href="#" class="block p-1 hover:underline">Бытовая техника</a>
+        <a href="#" class="block p-1 hover:underline">Аксессуары</a>
       </nav>
     </aside>
 
     <main class="col-span-4">
-      <h1 class="text-3xl font-bold text-center mb-6">ЗАДАНИЕ 2</h1>
-
-      <p class="mb-4 text-gray-800 leading-relaxed">
-        <img
-          src="https://placeholdmon.vercel.app/120x120"
-          alt="Магазин DNS"
-          class="float-right ml-4 mb-2 border p-1"
-          width="120px"
-          height="120px"
-        />
-        <b class="font-bold">DNS</b> — это
-        <i class="italic">крупнейшая федеральная розничная сеть</i>
-        по продаже цифровой и бытовой техники в России. В ассортименте магазина представлены
-        смартфоны, ноутбуки, планшеты, телевизоры, холодильники, стиральные машины и многое другое.
-        Широкий выбор товаров от ведущих мировых производителей.
-      </p>
-      <p class="mb-4 text-gray-800 leading-relaxed clear-both">
-        Мы предлагаем <b class="font-bold">выгодные цены</b> и регулярные акции на популярные
-        товары. <i class="italic">Гарантия качества</i> и официальная поддержка производителей.
-        Доставка по всей России и возможность <b class="font-bold">самовывоза из магазина</b>.
-        Удобные способы оплаты, включая рассрочку и кредит без переплаты.
-      </p>
-
-      <h2 class="text-2xl font-semibold mb-3">Популярные категории товаров:</h2>
-      <table class="border-4 border-gray-700 border-collapse mb-6 w-auto">
-        <tbody>
-          <tr>
-            <td class="border-2 border-gray-500 p-5"><b>Смартфоны</b> - iPhone, Samsung, Xiaomi</td>
-            <td class="border-2 border-gray-500 p-5"><b>Ноутбуки</b> - ASUS, Lenovo, HP</td>
-            <td class="border-2 border-gray-500 p-5 text-center align-middle" rowspan="2">
-              Цифровая техника с гарантией и доставкой
-            </td>
-          </tr>
-          <tr>
-            <td class="border-2 border-gray-500 p-5"><b>Телевизоры</b> - LED, OLED, QLED</td>
-            <td class="border-2 border-gray-500 p-5"><b>Наушники</b> - проводные, беспроводные</td>
-          </tr>
-          <tr>
-            <td class="border-2 border-gray-500 p-5 text-center" colspan="3">
-              <b>Бытовая техника</b> - холодильники, стиральные машины, пылесосы
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2 class="text-2xl font-semibold mb-3">Преимущества покупки в DNS:</h2>
-
-      <ul class="list-disc list-inside mb-4 pl-4">
-        <li>Широкий ассортимент более 100 000 товаров</li>
-        <li>Гарантия лучшей цены и программа лояльности</li>
-        <li>Бесплатная доставка при заказе от 2000 рублей</li>
-      </ul>
-
-      <ol class="list-[lower-alpha] list-inside mb-4 pl-4">
-        <li>Официальная гарантия от производителя</li>
-        <li>Сервисные центры по всей России</li>
-        <li>Возврат товара в течение 14 дней</li>
-      </ol>
-
-      <ol class="list-[upper-alpha] list-inside mb-4 pl-4">
-        <li>Популярные бренды электроники</li>
-        <li>
-          Смартфоны и гаджеты
-          <ol class="list-[lower-alpha] list-inside ml-6 mt-1">
-            <li>Apple iPhone (14, 15 Pro, 15 Pro Max)</li>
-            <li>Samsung Galaxy (S24, A55, Z Fold6)</li>
-          </ol>
-        </li>
-        <li>Акции и специальные предложения каждую неделю</li>
-      </ol>
-
-      <p class="text-sm text-gray-600 pb-4">
-        <b class="font-semibold">Программа лояльности DNS</b> позволяет накапливать бонусы при
-        каждой покупке и использовать их для оплаты следующих заказов.
-        <i class="italic">Эксклюзивные предложения</i> для постоянных клиентов включают
-        дополнительные скидки, приоритетную доставку и расширенную гарантию.
-      </p>
+      <router-outlet></router-outlet>
     </main>
 
-    <aside class="col-span-1 bg-[#ff8000] text-white p-4 text-center">
+    <!-- right aside -->
+    <aside class="col-span-1 bg-[#ff8000] text-white p-1.5 text-center">
       <div class="flex flex-col gap-4">
+        <div>
+          <input type="text" placeholder="поиск" class="w-full p-1 text-black bg-white" />
+          <button
+            class="bg-gray-700 text-white px-3 py-1 mt-1 hover:bg-gray-600 transition-colors text-sm cursor-pointer"
+          >
+            Найти
+          </button>
+        </div>
         <a href="#">
           <img
-            src="https://placeholdmon.vercel.app/149x80/"
-            alt="Распродажа"
-            class="w-full hover:opacity-80 transition-opacity h-20"
-            title="Распродажа до -50%"
+            src="https://brandwiki.ru/up/brands/product/210720_554.webp"
+            alt="Ситилинк"
+            class="w-full hover:opacity-80 transition-opacity h-20 object-cover"
+            title="Ситилинк"
           />
         </a>
         <a href="#">
           <img
-            src="https://placeholdmon.vercel.app/150x80/"
-            alt="iPhone 15"
-            class="w-full hover:opacity-80 transition-opacity h-20"
-            title="Новый iPhone 15"
+            src="https://assets.turbologo.ru/blog/ru/2020/02/18162818/logo-mts-ks.png"
+            alt="МТС"
+            class="w-full hover:opacity-80 transition-opacity h-20 object-cover"
+            title="МТС"
           />
         </a>
         <a href="#">
           <img
-            src="https://placeholdmon.vercel.app/151x80/"
-            alt="Рассрочка"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQxcbHHqNVRXBkbzOlKy8svirKu53s24kZvg&s"
+            alt="iPhone 17 Pro Max"
             class="w-full hover:opacity-80 transition-opacity h-20"
-            title="Рассрочка 0%"
+            title="iPhone 17 Pro Max"
           />
         </a>
       </div>
