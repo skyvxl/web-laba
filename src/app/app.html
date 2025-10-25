@@ -1,121 +1,156 @@
-<table border="0" width="900" cellpadding="0" cellspacing="0" align="center" bgcolor="#ff8000">
-  <tr>
-    <td width="150" align="center">ЛОГОТИП</td>
-    <td align="center"><H1>НАЗВАНИЕ САЙТА</H1></td>
-    <td width="200">
-      <table cellpadding="5" width="100%">
-        <tr>
-          <!-- <td width="40%" align="right">логин: </td> -->
-          <td align="right"><input type="text" value="логин" /></td>
-        </tr>
-        <tr>
-          <!-- <td width="40%" align="right">пароль: </td> -->
-          <td align="right"><input type="password" value="логин" /></td>
-        </tr>
-        <tr>
-          <!-- 			<td width="40%" align="right"><A HREF="#">регистрация</A></td> -->
-          <td align="right">
-            <input type="submit" value="войти" />&nbsp;<A HREF="#">регистрация</A>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
+<div class="container mx-auto max-w-4xl bg-white overflow-hidden text-sm">
+  <header class="bg-[#ff8000] p-4 text-white">
+    <div class="flex justisfy-between items-center">
+      <div class="text-xl font-bold w-1/5">ЛОГОТИП</div>
 
-<table border="0" width="900" cellpadding="5" cellpadding="0" align="center">
-  <tr>
-    <td align="center"><a href="#">раздел 1</a></td>
-    <td align="center"><a href="#">раздел 2</a></td>
-    <td align="center"><a href="#">раздел 3</a></td>
-    <td align="center"><a href="#">раздел 4</a></td>
-    <td align="right">
-      <input type="text" value="поиск" /> <input type="button" value="искать" />
-    </td>
-  </tr>
-</table>
-<BR />
-<table border="0" width="900" cellpadding="5" cellpadding="0" align="center">
-  <tr>
-    <td width="150" cellpadding="5" valign="top" align="center" bgcolor="#ff8000">
-      <a href="#">Страница 1</a><BR /> <a href="#">Страница 2</a><BR /> <a href="#">Страница 3</a
-      ><BR /> <a href="#">Страница 4</a>
-    </td>
+      <div class="text-center w-3/5">
+        <h1 class="text-3xl font-bold uppercase">Название сайта</h1>
+      </div>
 
-    <td></td>
-    <td>
-      <H1 align="center">ЗАДАНИЕ 2</H1>
-      <p>
-        <img src="man.jpg" align="left" />
+      <div class="w-1/5">
+        <form class="flex flex-col gap-2">
+          <div>
+            <input type="text" placeholder="логин" class="w-full p-1 text-black bg-white" />
+          </div>
+          <div>
+            <input type="password" placeholder="пароль" class="w-full p-1 text-black bg-white" />
+          </div>
+          <div class="flex gap-2 items-center justify-between">
+            <button
+              type="submit"
+              class="bg-gray-700 text-white px-3 py-1 hover:bg-gray-600 transition-colors text-sm"
+            >
+              войти
+            </button>
+            <a href="#" class="text-white hover:underline text-sm">регистрация</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </header>
+  <nav class="bg-orange-300 p-2">
+    <div class="flex justify-evenly items-center">
+      <a href="#" class="font-semibold text-white hover:underline">раздел 1</a>
+      <a href="#" class="font-semibold text-white hover:underline">раздел 2</a>
+      <a href="#" class="font-semibold text-white hover:underline">раздел 3</a>
+      <a href="#" class="font-semibold text-white hover:underline">раздел 4</a>
+    </div>
+  </nav>
+
+  <div class="grid grid-cols-6 gap-4 pt-4">
+    <aside class="col-span-1 bg-[#ff8000] text-white p-4 text-center">
+      <nav class="flex flex-col gap-2">
+        <a href="#" class="block p-1 hover:underline">Страница 1</a>
+        <a href="#" class="block p-1 hover:underline">Страница 2</a>
+        <a href="#" class="block p-1 hover:underline">Страница 3</a>
+        <a href="#" class="block p-1 hover:underline">Страница 4</a>
+      </nav>
+    </aside>
+
+    <main class="col-span-4">
+      <h1 class="text-3xl font-bold text-center mb-6">ЗАДАНИЕ 2</h1>
+
+      <p class="mb-4 text-gray-800 leading-relaxed">
+        <img
+          src="https://placehold.co/120x120/E0E0E0/7F7F7F?text=Man.jpg"
+          alt="Мужчина"
+          class="float-left mr-4 mb-2 border p-1"
+        />
         Создать html-код, воспроизводящий данный макет. Ссылки из верхнего и бокового меню должны
         вести на существующие страницы. Содержание страниц произвольно, но структура должна
         повторять макет.
       </p>
-      <p>
+      <p class="mb-4 text-gray-800 leading-relaxed clear-both">
         Страницы должны содержать несколько абзацев произвольного текста. Использовать теги
-        <B>p</B>, <B>br</B>, <B>h2</B>. Использовать 2-3 цвета, жирное и курсивное начертание и
-        вставку рисунков.
+        <code class="bg-gray-200 px-1 font-mono">&lt;p&gt;</code>,
+        <code class="bg-gray-200 px-1 font-mono">&lt;br&gt;</code>,
+        <code class="bg-gray-200 px-1 font-mono">&lt;h2&gt;</code>. Использовать 2-3 цвета,
+        <b class="font-bold">жирное</b> и <i class="italic">курсивное начертание</i> и вставку
+        рисунков.
       </p>
-      Сделать таблицу:<BR />
-      <table border="3" cellpadding="20" cellspacing="5">
-        <!--			<tr>
-				<td colspan=3 align="center">Общий столбец</td>
 
-			</tr> -->
-        <tr>
-          <td rowspan="3">Общая строка</td>
-          <td colspan="2" align="center">общий столбец</td>
-        </tr>
-        <tr>
-          <td>текст</td>
-          <td>текст</td>
-        </tr>
-        <tr>
-          <td>текст</td>
-          <td>текст</td>
-        </tr>
+      <h2 class="text-2xl font-semibold mb-3">Сделать таблицу:</h2>
+      <table class="border-4 border-gray-700 border-collapse mb-6 w-auto">
+        <tbody>
+          <tr>
+            <td class="border-2 border-gray-500 p-5">текст</td>
+            <td class="border-2 border-gray-500 p-5">текст</td>
+            <td class="border-2 border-gray-500 p-5 text-center align-middle" rowspan="2">
+              Общая строка
+            </td>
+          </tr>
+          <tr>
+            <td class="border-2 border-gray-500 p-5">текст</td>
+            <td class="border-2 border-gray-500 p-5">текст</td>
+          </tr>
+          <tr>
+            <td class="border-2 border-gray-500 p-5 text-center" colspan="3">Общий столбец</td>
+          </tr>
+        </tbody>
       </table>
-      <BR /> Создать списки:<BR />
-      <ul type="circle">
+
+      <h2 class="text-2xl font-semibold mb-3">Создать списки:</h2>
+
+      <ul class="list-disc list-inside mb-4 pl-4">
         <li>маркированный 1</li>
         <li>маркированный 2</li>
         <li>маркированный 3</li>
       </ul>
 
-      <ol type="a">
+      <ol class="list-[lower-alpha] list-inside mb-4 pl-4">
         <li>нумерованный 1</li>
         <li>нумерованный 2</li>
         <li>нумерованный 3</li>
       </ol>
 
-      <ol type="A">
+      <ol class="list-[upper-alpha] list-inside mb-4 pl-4">
         <li>многоуровневый 1</li>
         <li>
           многоуровневый 2
-          <ol type="a">
+          <ol class="list-[lower-alpha] list-inside ml-6 mt-1">
             <li>многоуровневый 1a</li>
             <li>многоуровневый 1b</li>
           </ol>
         </li>
-
         <li>многоуровневый 3</li>
       </ol>
 
-      Для изменения типа маркеров и нумерации используйте атрибут <B>type</B> и его значения "1",
-      "I", "i", "A", "a" для нумерованного списка и "disk", "sircle", "square" для маркированного.
-    </td>
-    <td width="190" cellpadding="5" valign="top" align="center" bgcolor="#ff8000">
-      баннер1<BR /><BR /> баннер2<BR /><BR /> баннер3<BR /><BR /><BR />
-      (баннеры - произвольные картинки со ссылками)
-    </td>
-    <!-- -->
-  </tr>
-  <!-- 	<tr>
-			<td colspan=3 cellpadding="5" valign="top" align="center" bgcolor="#ff8000">
-			баннер1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			баннер2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			баннер3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;(баннеры - произвольные картинки со ссылками)
-		</td>
-	</tr> -->
-</table>
+      <p class="text-sm text-gray-600">
+        Для изменения типа маркеров и нумерации используйте атрибут
+        <b class="font-semibold">type</b> и его значения "1", "I", "i", "A", "a" для нумерованного
+        списка и "disk", "circle", "square" для маркированного. (В Tailwind мы используем классы
+        вроде <code class="bg-gray-200 px-1 text-xs">list-disc</code> или
+        <code class="bg-gray-200 px-1 text-xs">list-[lower-alpha]</code>).
+      </p>
+    </main>
+
+    <aside class="col-span-1 bg-[#ff8000] text-white p-4 text-center">
+      <div class="flex flex-col gap-4">
+        <a href="#">
+          <img
+            src="https://placeholdmon.vercel.app/149x80/"
+            alt="Баннер 1"
+            class="w-full hover:opacity-80 transition-opacity h-20"
+            title="Баннер 1"
+          />
+        </a>
+        <a href="#">
+          <img
+            src="https://placeholdmon.vercel.app/150x80/"
+            alt="Баннер 2"
+            class="w-full hover:opacity-80 transition-opacity h-20"
+            title="Баннер 2"
+          />
+        </a>
+        <a href="#">
+          <img
+            src="https://placeholdmon.vercel.app/151x80/"
+            alt="Баннер 3"
+            class="w-full hover:opacity-80 transition-opacity h-20"
+            title="Баннер 3"
+          />
+        </a>
+      </div>
+    </aside>
+  </div>
+</div>
