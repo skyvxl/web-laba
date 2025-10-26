@@ -4,9 +4,10 @@
       <div class="flex justify-between items-center">
         <div class="text-xl font-bold w-1/5">
           <img
-            src="image.png"
+            ngSrc="image.png"
             class="h-24"
-            width="96px"
+            width="96"
+            height="96"
             alt="DNS логотип, 96x96px"
             title="DNS логотип, 96x96px"
           />
@@ -19,10 +20,10 @@
         <div class="w-1/5">
           <form class="flex flex-col gap-2">
             <div>
-              <input type="text" placeholder="логин" class="w-full p-1 text-black bg-white" />
+              <app-base-input [type]="'text'" [placeholder]="'логин'" />
             </div>
             <div>
-              <input type="password" placeholder="пароль" class="w-full p-1 text-black bg-white" />
+              <app-base-input [type]="'password'" [placeholder]="'пароль'" />
             </div>
             <div class="flex gap-2 items-center justify-between">
               <button
@@ -60,7 +61,7 @@
     </nav>
   </header>
 
-  <div class="grid grid-cols-6 gap-4 pt-4">
+  <div class="grid grid-cols-6 gap-4 py-4">
     <!-- left aside -->
     <aside class="col-span-1 bg-[#ff8000] text-white p-4 text-center">
       <nav class="flex flex-col gap-2">
@@ -79,7 +80,7 @@
     <aside class="col-span-1 bg-[#ff8000] text-white p-1.5 text-center">
       <div class="flex flex-col gap-4">
         <div>
-          <input type="text" placeholder="поиск" class="w-full p-1 text-black bg-white" />
+          <app-base-input [type]="'text'" [placeholder]="'поиск'" />
           <button
             class="bg-gray-700 text-white px-3 py-1 mt-1 hover:bg-gray-600 transition-colors text-sm cursor-pointer"
           >
@@ -88,33 +89,39 @@
         </div>
         <a href="#">
           <img
-            src="https://brandwiki.ru/up/brands/product/210720_554.webp"
+            ngSrc="https://brandwiki.ru/up/brands/product/210720_554.webp"
             alt="Ситилинк"
             class="w-full hover:opacity-80 transition-opacity h-20 object-cover"
             title="Ситилинк"
+            width="124"
+            height="80"
           />
         </a>
         <a href="#">
           <img
-            src="https://assets.turbologo.ru/blog/ru/2020/02/18162818/logo-mts-ks.png"
+            ngSrc="https://assets.turbologo.ru/blog/ru/2020/02/18162818/logo-mts-ks.png"
             alt="МТС"
             class="w-full hover:opacity-80 transition-opacity h-20 object-cover"
             title="МТС"
+            width="124"
+            height="80"
           />
         </a>
         <a href="#">
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQxcbHHqNVRXBkbzOlKy8svirKu53s24kZvg&s"
+            ngSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQxcbHHqNVRXBkbzOlKy8svirKu53s24kZvg&s"
             alt="iPhone 17 Pro Max"
             class="w-full hover:opacity-80 transition-opacity h-20"
             title="iPhone 17 Pro Max"
+            width="124"
+            height="80"
           />
         </a>
       </div>
     </aside>
   </div>
 
-  <footer class="text-white pt-2">
+  <footer class="text-white">
     <div class="flex w-full bg-[#ff8000] p-4">
       <p class="text-sm text-center w-full">&copy; 2025 DNS. Все права защищены</p>
     </div>
