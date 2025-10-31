@@ -7,7 +7,11 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "prepare": "husky"
+    "prepare": "husky",
+    "lint": "ng lint",
+    "lint:fix": "ng lint --fix",
+    "format": "prettier --write src/.",
+    "deploy": "firebase deploy"
   },
   "prettier": {
     "printWidth": 100,
@@ -41,6 +45,8 @@
     "@angular/cli": "^20.3.7",
     "@angular/compiler-cli": "^20.3.0",
     "@types/jasmine": "~5.1.0",
+    "angular-eslint": "20.5.0",
+    "eslint": "^9.38.0",
     "firebase-tools": "^14.22.0",
     "husky": "^9.1.7",
     "jasmine-core": "~5.9.0",
@@ -49,7 +55,9 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.9.2"
+    "prettier": "^3.6.2",
+    "typescript": "~5.9.2",
+    "typescript-eslint": "8.46.1"
   },
   "trustedDependencies": [
     "@parcel/watcher"

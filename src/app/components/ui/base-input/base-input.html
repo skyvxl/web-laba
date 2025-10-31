@@ -2,7 +2,8 @@
   <div class="mb-3">
     <label for="{{ title() }}" class="font-medium">{{ title() }}</label>
     <input
-      [formControl]="control" id="{{ title() }}"
+      [formControl]="control"
+      id="{{ title() }}"
       name="{{ title() }}"
       type="{{ type() }}"
       [placeholder]="placeholder() || ''"
@@ -12,7 +13,8 @@
   </div>
 } @else {
   <input
-    [formControl]="control" type="{{ type() }}"
+    [formControl]="control"
+    type="{{ type() }}"
     [placeholder]="placeholder()"
     [required]="required()"
     class="w-full p-1 text-black bg-white"

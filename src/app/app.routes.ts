@@ -14,6 +14,14 @@ export const routes: Routes = [
     loadComponent: () => import('./components/pages/contacts/contacts').then((m) => m.Contacts),
   },
   {
+    path: 'catalog',
+    loadComponent: () => import('./components/pages/catalog/catalog').then((m) => m.Catalog),
+  },
+  {
+    path: 'product/:id',
+    loadComponent: () => import('./components/pages/product/product').then((m) => m.ProductPage),
+  },
+  {
     path: '**',
     loadComponent: () => import('./components/pages/not-found/not-found').then((m) => m.NotFound),
   },

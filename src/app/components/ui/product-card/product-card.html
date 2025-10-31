@@ -1,0 +1,25 @@
+<a
+  [routerLink]="['/product', product().id]"
+  class="block border border-gray-400 hover:border-[#ff8000] transition-colors bg-white"
+>
+  <img
+    [alt]="product().name"
+    [ngSrc]="product().image"
+    class="w-full h-48 object-contain p-2 bg-white"
+    height="192"
+    width="192"
+  />
+  <div class="p-3 border-t border-gray-400">
+    <h3 class="font-bold text-sm mb-2 line-clamp-2">{{ product().name }}</h3>
+    <p class="text-xs text-gray-600 mb-3 line-clamp-2">{{ product().shortDescription }}</p>
+    <div class="flex items-baseline gap-2 mb-2">
+      @if (product().oldPrice) {
+        <span class="text-xs text-gray-500 line-through">{{ product().oldPrice }} ₽</span>
+      }
+      <span class="text-lg font-bold text-[#ff8000]">{{ product().price }} ₽</span>
+    </div>
+    <button class="w-full bg-gray-700 text-white py-1 text-sm hover:bg-gray-600 transition-colors">
+      Подробнее
+    </button>
+  </div>
+</a>
