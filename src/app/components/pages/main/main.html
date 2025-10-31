@@ -1,10 +1,10 @@
-<h1 class="text-3xl font-bold text-center mb-6">ГЛАВНАЯ</h1>
+<h1 class="text-2xl md:text-3xl font-bold text-center mb-6">ГЛАВНАЯ</h1>
 
 <p class="mb-4 text-gray-800 leading-relaxed">
   <img
     ngSrc="https://png.klev.club/uploads/posts/2024-05/png-klev-club-fpw0-p-multyashnii-kompyuter-png-30.png"
     alt="Магазин DNS"
-    class="float-right ml-4 mb-2 border p-1"
+    class="float-right ml-4 mb-2 border p-1 w-24 md:w-32"
     width="120"
     height="108"
   />
@@ -46,26 +46,32 @@
 </p>
 
 <h2 class="text-2xl font-semibold mb-3">Популярные категории товаров:</h2>
-<table class="border-4 border-gray-700 border-collapse mb-6 w-auto">
-  <tbody>
-    <tr>
-      <td class="border-2 border-gray-500 p-5"><b>Смартфоны</b> - iPhone, Samsung, Xiaomi</td>
-      <td class="border-2 border-gray-500 p-5"><b>Ноутбуки</b> - ASUS, Lenovo, HP</td>
-      <td class="border-2 border-gray-500 p-5 text-center align-middle" rowspan="2">
-        Цифровая техника с гарантией и доставкой
-      </td>
-    </tr>
-    <tr>
-      <td class="border-2 border-gray-500 p-5"><b>Телевизоры</b> - LED, OLED, QLED</td>
-      <td class="border-2 border-gray-500 p-5"><b>Наушники</b> - проводные, беспроводные</td>
-    </tr>
-    <tr>
-      <td class="border-2 border-gray-500 p-5 text-center" colspan="3">
-        <b>Бытовая техника</b> - холодильники, стиральные машины, пылесосы
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="overflow-x-auto mb-6">
+  <table class="border-4 border-gray-700 border-collapse w-full min-w-[500px]">
+    <tbody>
+      <tr>
+        <td class="border-2 border-gray-500 p-3 md:p-5">
+          <b>Смартфоны</b> - iPhone, Samsung, Xiaomi
+        </td>
+        <td class="border-2 border-gray-500 p-3 md:p-5"><b>Ноутбуки</b> - ASUS, Lenovo, HP</td>
+        <td class="border-2 border-gray-500 p-3 md:p-5 text-center align-middle" rowspan="2">
+          Цифровая техника с гарантией и доставкой
+        </td>
+      </tr>
+      <tr>
+        <td class="border-2 border-gray-500 p-3 md:p-5"><b>Телевизоры</b> - LED, OLED, QLED</td>
+        <td class="border-2 border-gray-500 p-3 md:p-5">
+          <b>Наушники</b> - проводные, беспроводные
+        </td>
+      </tr>
+      <tr>
+        <td class="border-2 border-gray-500 p-3 md:p-5 text-center" colspan="3">
+          <b>Бытовая техника</b> - холодильники, стиральные машины, пылесосы
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 <h2 class="text-2xl font-semibold mb-3">Преимущества покупки в DNS:</h2>
 

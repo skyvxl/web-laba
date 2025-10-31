@@ -1,11 +1,11 @@
 <div class="container mx-auto max-w-4xl bg-white overflow-hidden text-sm">
   <header>
     <div class="bg-[#ff8000] p-4 text-white">
-      <div class="flex justify-between items-center">
-        <div class="text-xl font-bold w-1/5">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="text-xl font-bold w-full md:w-1/5 flex justify-center md:justify-start">
           <img
             ngSrc="image.png"
-            class="h-24"
+            class="h-16 w-16 md:h-24 md:w-24"
             width="96"
             height="96"
             alt="DNS логотип, 96x96px"
@@ -13,11 +13,11 @@
           />
         </div>
 
-        <div class="text-left w-3/5">
-          <h1 class="text-3xl font-bold uppercase">DNS - Магазин Электроники</h1>
+        <div class="text-center md:text-left w-full md:w-3/5">
+          <h1 class="text-xl md:text-3xl font-bold uppercase">DNS - Магазин Электроники</h1>
         </div>
 
-        <div class="w-1/5">
+        <div class="w-full md:w-1/5">
           <form class="flex flex-col gap-2">
             <div>
               <app-base-input [type]="'text'" [placeholder]="'логин'" />
@@ -40,7 +40,7 @@
     </div>
 
     <nav class="bg-orange-300 p-2">
-      <div class="flex justify-evenly items-center">
+      <div class="flex justify-evenly items-center text-xs md:text-sm">
         <a routerLink="/" class="font-semibold text-white hover:underline hover:cursor-pointer"
           >Главная</a
         >
@@ -61,9 +61,9 @@
     </nav>
   </header>
 
-  <div class="grid grid-cols-6 gap-4 py-4">
+  <div class="grid grid-cols-1 lg:grid-cols-6 gap-4 py-4">
     <!-- left aside -->
-    <aside class="col-span-1 bg-[#ff8000] text-white p-4 text-center">
+    <aside class="hidden lg:block lg:col-span-1 bg-[#ff8000] text-white p-4 text-center">
       <nav class="flex flex-col gap-2">
         <a href="#" class="block p-1 hover:underline">Смартфоны</a>
         <a href="#" class="block p-1 hover:underline">Ноутбуки</a>
@@ -72,12 +72,12 @@
       </nav>
     </aside>
 
-    <main class="col-span-4">
+    <main class="col-span-1 lg:col-span-4 px-4 lg:px-0">
       <router-outlet></router-outlet>
     </main>
 
     <!-- right aside -->
-    <aside class="col-span-1 bg-[#ff8000] text-white p-1.5 text-center">
+    <aside class="hidden lg:block lg:col-span-1 bg-[#ff8000] text-white p-1.5 text-center">
       <div class="flex flex-col gap-4">
         <div>
           <app-base-input [type]="'text'" [placeholder]="'поиск'" />
