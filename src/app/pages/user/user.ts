@@ -1,0 +1,35 @@
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { AuthService } from '../../core/services/auth.service';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-user-page',
+  imports: [],
+  templateUrl: './user.html',
+  styleUrl: './user.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class UserPage {
+  private readonly auth = inject(AuthService);
+  private router: Router = inject(Router);
+
+  user = toSignal(this.auth.getAuthState(), { initialValue: null });
+
+  uid = computed(() => this.user()?.uid ?? '—');
+  email = computed(() => this.user()?.email ?? '—');
+  creation = computed(() => formatDt(this.user()?.metadata?.creationTime));
+  lastLogin = computed(() => formatDt(this.user()?.metadata?.lastSignInTime));
+
+  async logout() {
+    await this.auth.logout();
+    await this.router.navigate(['/']);
+  }
+}
+
+function formatDt(dt: string | null | undefined): string {
+  if (!dt) return '—';
+  const d = new Date(dt);
+  if (isNaN(d.getTime())) return dt;
+  return d.toLocaleString('ru-RU');
+}

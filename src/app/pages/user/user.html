@@ -1,0 +1,18 @@
+<div class="p-4">
+  <h2 class="text-xl font-bold mb-4">Личный кабинет</h2>
+
+  @if (user()) {
+    <div class="grid grid-cols-1 gap-2 text-sm mb-4">
+      <div><span class="font-semibold">ID:</span> {{ uid() }}</div>
+      <div><span class="font-semibold">E-mail:</span> {{ email() }}</div>
+      <div><span class="font-semibold">Дата регистрации:</span> {{ creation() }}</div>
+      <div><span class="font-semibold">Последний вход:</span> {{ lastLogin() }}</div>
+    </div>
+    <button
+      (click)="logout()"
+      class="bg-gray-700 text-white px-5 py-1 hover:bg-gray-600 transition-colors text-sm cursor-pointer"
+    >
+      Выйти
+    </button>
+  }
+</div>
