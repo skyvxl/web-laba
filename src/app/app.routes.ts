@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { publicGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -16,6 +17,11 @@ export const routes: Routes = [
   {
     path: 'catalog',
     loadComponent: () => import('./pages/catalog/catalog').then((m) => m.Catalog),
+  },
+  {
+    path: 'register',
+    loadComponent: () => import('./pages/register/register').then((m) => m.Register),
+    canActivate: [publicGuard],
   },
   {
     path: 'product/:id',

@@ -1,1 +1,85 @@
-<p>register-page works!</p>
+<div class="p-4 bg-white">
+  <h2 class="text-xl font-bold mb-4">Регистрация</h2>
+
+  @if (errorMsg()) {
+    <div class="mb-3 p-2 border border-red-400 bg-red-50 text-red-700 text-sm">
+      {{ errorMsg() }}
+    </div>
+  }
+
+  @if (success()) {
+    <div class="p-3 border border-green-400 bg-green-50 text-green-700 text-sm">
+      Успешная регистрация. Перенаправляем на главную...
+    </div>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-2">
+      <app-base-input
+        [title]="'E-mail'"
+        [type]="'email'"
+        [placeholder]="'you@example.com'"
+        [required]="true"
+        [value]="form.get('email')?.value || ''"
+        (valueChange)="onEmailChange($event)"
+      />
+      @if (form.get('email')?.touched && form.get('email')?.invalid) {
+        <div class="text-red-600 text-xs -mt-1">
+          @if (form.get('email')?.errors?.['required']) {
+            Введите e-mail
+          }
+          @if (form.get('email')?.errors?.['email']) {
+            Некорректный e-mail
+          }
+        </div>
+      }
+
+      <app-base-input
+        [title]="'Пароль'"
+        [type]="'password'"
+        [placeholder]="'минимум 6 символов'"
+        [required]="true"
+        [value]="form.get('password')?.value || ''"
+        (valueChange)="onPasswordChange($event)"
+      />
+      @if (form.get('password')?.touched && form.get('password')?.invalid) {
+        <div class="text-red-600 text-xs -mt-1">
+          @if (form.get('password')?.errors?.['required']) {
+            Введите пароль
+          }
+          @if (form.get('password')?.errors?.['minlength']) {
+            Минимум 6 символов
+          }
+        </div>
+      }
+
+      <app-base-input
+        [title]="'Подтверждение пароля'"
+        [type]="'password'"
+        [required]="true"
+        [value]="form.get('confirmPassword')?.value || ''"
+        (valueChange)="onConfirmPasswordChange($event)"
+      />
+      @if (form.get('confirmPassword')?.touched && form.get('confirmPassword')?.invalid) {
+        <div class="text-red-600 text-xs -mt-1">
+          @if (form.get('confirmPassword')?.errors?.['required']) {
+            Повторите пароль
+          }
+          @if (form.get('confirmPassword')?.errors?.['mismatch']) {
+            Пароли не совпадают
+          }
+        </div>
+      }
+
+      <button
+        type="submit"
+        [disabled]="form.invalid || loading()"
+        class="bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-5 py-1 mt-2 hover:bg-gray-600 transition-colors text-sm cursor-pointer"
+      >
+        @if (loading()) {
+          Регистрируемся...
+        } @else {
+          Зарегистрироваться
+        }
+      </button>
+    </form>
+  }
+</div>
