@@ -47,8 +47,10 @@
     "@angular/cli": "^20.3.7",
     "@angular/compiler-cli": "^20.3.0",
     "@types/jasmine": "~5.1.0",
+    "@types/node": "^24.9.2",
     "angular-eslint": "20.5.0",
     "eslint": "^9.38.0",
+    "firebase-admin": "^13.5.0",
     "firebase-tools": "^14.22.0",
     "husky": "^9.1.7",
     "jasmine-core": "~5.9.0",
@@ -58,6 +60,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "prettier": "^3.6.2",
+    "tsx": "^4.20.6",
     "typescript": "~5.9.2",
     "typescript-eslint": "8.46.1"
   },

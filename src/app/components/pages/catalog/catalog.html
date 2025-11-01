@@ -6,7 +6,12 @@
 </p>
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-  @for (product of products; track product.id) {
-    <app-product-card [product]="product" />
+  @if (products$ | async; as products) {
+    @for (product of products; track product.id) {
+      <app-product-card [product]="product" />
+    }
+  } @else {
+    <p>Загрузка товаров...</p>
+    <!-- Или можно добавить компонент скелетона/спиннера -->
   }
 </div>

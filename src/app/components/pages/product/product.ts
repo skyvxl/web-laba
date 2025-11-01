@@ -2,11 +2,11 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../../models/product.model';
 import { PRODUCTS } from '../../../data/products.data';
-import { KeyValuePipe, NgOptimizedImage } from '@angular/common';
+import { KeyValuePipe } from '@angular/common';
 
 @Component({
   selector: 'app-product',
-  imports: [KeyValuePipe, NgOptimizedImage],
+  imports: [KeyValuePipe],
   templateUrl: './product.html',
   styleUrl: './product.css',
 })

@@ -1,10 +1,10 @@
 <a
   [routerLink]="['/product', product().id]"
-  class="block border border-gray-400 hover:border-[#ff8000] transition-colors bg-white"
+  class="block border border-gray-400 hover:border-[#ff8000] transition-colors bg-white h-full"
 >
   <img
     [alt]="product().name"
-    [ngSrc]="product().image"
+    [src]="product().image"
     class="w-full h-48 object-contain p-2 bg-white"
     height="192"
     width="192"
