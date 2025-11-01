@@ -12,7 +12,8 @@
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
     "format": "prettier --write src/.",
-    "deploy": "firebase deploy"
+    "deploy": "firebase deploy",
+    "fix": "npm run format && npm run lint:fix"
   },
   "prettier": {
     "printWidth": 100,

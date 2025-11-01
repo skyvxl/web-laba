@@ -1,5 +1,5 @@
-import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, getDocs } from '@angular/fire/firestore';
+import { inject, Injectable } from '@angular/core';
+import { collection, Firestore, getDocs } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Product } from '../models/product.model';

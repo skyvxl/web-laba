@@ -1,8 +1,8 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Product } from '../../../models/product.model';
+import { Product } from '../../shared/models/product.model';
 import { KeyValuePipe } from '@angular/common';
-import { ProductService } from '../../../services/product.service';
+import { ProductService } from '../../shared/services/product.service';
 
 @Component({
   selector: 'app-product',
