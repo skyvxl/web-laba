@@ -1,68 +1,41 @@
 import { Injectable, inject } from '@angular/core';
-import {
-  Firestore,
-  collection,
-  query,
-  FirestoreDataConverter,
-  QueryDocumentSnapshot,
-  SnapshotOptions,
-  DocumentData,
-  onSnapshot,
-} from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Firestore, collection, getDocs } from '@angular/fire/firestore';
+import { from, Observable } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
 import { Product } from '../models/product.model';
-
-const productConverter: FirestoreDataConverter<Product> = {
-  toFirestore: (product: Product): DocumentData => {
-    const { ...data } = product;
-    return data;
-  },
-  fromFirestore: (snapshot: QueryDocumentSnapshot, options: SnapshotOptions): Product => {
-    const data = snapshot.data(options);
-    return {
-      id: parseInt(snapshot.id, 10),
-      name: data['name'],
-      category: data['category'],
-      price: data['price'],
-      oldPrice: data['oldPrice'],
-      image: data['image'],
-      shortDescription: data['shortDescription'],
-      description: data['description'],
-      characteristics: data['characteristics'],
-      features: data['features'],
-    } as Product;
-  },
-};
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
   private readonly firestore: Firestore = inject(Firestore);
+  private readonly productsCollection = collection(this.firestore, 'products');
 
-  private readonly productsCollection = collection(this.firestore, 'products').withConverter(
-    productConverter,
-  );
+  private products$: Observable<Product[]> | undefined;
 
   getProducts(): Observable<Product[]> {
-    const q = query(this.productsCollection);
-
-    return new Observable((subscriber) => {
-      const unsubscribe = onSnapshot(
-        q,
-        (querySnapshot) => {
-          const products: Product[] = [];
-          querySnapshot.forEach((doc) => {
-            products.push(doc.data());
+    if (!this.products$) {
+      this.products$ = from(getDocs(this.productsCollection)).pipe(
+        map((snapshot) => {
+          return snapshot.docs.map((doc) => {
+            const data = doc.data();
+            return {
+              id: doc.id,
+              name: data['name'],
+              category: data['category'],
+              price: data['price'],
+              oldPrice: data['oldPrice'],
+              image: data['image'],
+              shortDescription: data['shortDescription'],
+              description: data['description'],
+              characteristics: data['characteristics'],
+              features: data['features'],
+            } as Product;
           });
-          subscriber.next(products);
-        },
-        (error) => {
-          subscriber.error(error);
-        },
+        }),
+        shareReplay(1),
       );
-
-      return () => unsubscribe();
-    });
+    }
+    return this.products$;
   }
 }
