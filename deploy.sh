@@ -15,10 +15,10 @@ git fetch origin
 git reset --hard origin/main
 
 echo "📥 Installing dependencies..."
-npm ci --omit=dev
+bun install
 
 echo "🏗️  Building production bundle..."
-npm run build:prod
+bun run build:prod
 
 echo "🔄 Restarting PM2..."
 pm2 delete laba-ssr 2>/dev/null || true
