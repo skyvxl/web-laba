@@ -3,8 +3,8 @@ module.exports = {
     {
       name: 'laba-ssr',
       script: './dist/laba/server/server.mjs',
-      instances: 'max',
-      exec_mode: 'cluster',
+      instances: 1,
+      exec_mode: 'fork',
       env: {
         NODE_ENV: 'production',
         PORT: 4000,
