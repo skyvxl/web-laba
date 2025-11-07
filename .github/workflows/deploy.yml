@@ -11,69 +11,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts
+          chmod 400 ~/.ssh/id_rsa
+          echo -e "Host *\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null" > ~/.ssh/config
 
-      - name: Deploy and Build on Server
+      - name: Run deploy script on server
         env:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET_PATH: ${{ secrets.TARGET_PATH }}
         run: |
-          ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST << 'ENDSSH'
-            set -e
-
-            # Проверяем существование директории и git репозитория
-            if [ ! -d "${{ secrets.TARGET_PATH }}" ]; then
-              echo "📁 Creating project directory..."
-              mkdir -p ${{ secrets.TARGET_PATH }}
-              cd ${{ secrets.TARGET_PATH }}
-
-              echo "📦 Cloning repository for the first time..."
-              git clone https://github.com/skyvxl/web-laba.git .
-            else
-              cd ${{ secrets.TARGET_PATH }}
-
-              if [ ! -d ".git" ]; then
-                echo "📦 Initializing git repository..."
-                git clone https://github.com/skyvxl/web-laba.git .
-              else
-                echo "📦 Pulling latest changes from repository..."
-                git fetch origin
-                git reset --hard origin/main
-              fi
-            fi
-
-            echo "📥 Installing dependencies..."
-            npm ci --omit=dev
-
-            echo "🏗️  Building production bundle..."
-            npm run build:prod
-
-            echo "🔄 Restarting PM2 process..."
-            # Останавливаем и удаляем существующий процесс (если есть)
-            pm2 delete laba-ssr 2>/dev/null || true
-
-            # Запускаем новый процесс
-            pm2 start ecosystem.config.cjs --env production
-
-            # Сохраняем список процессов для автозапуска
-            pm2 save
-
-            echo "✅ Deployment completed successfully!"
-            pm2 status
-          ENDSSH
+          ssh $REMOTE_USER@$REMOTE_HOST "cd $TARGET_PATH && bash deploy.sh"
 
       - name: Cleanup SSH
         if: always()
         run: |
           rm -f ~/.ssh/id_rsa
-          rm -f ~/.ssh/known_hosts
+          rm -f ~/.ssh/config
