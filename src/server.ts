@@ -12,6 +12,9 @@ const browserDistFolder = join(import.meta.dirname, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
+// Trust proxy для корректной работы за Nginx
+app.set('trust proxy', true);
+
 /**
  * Example Express Rest API endpoints can be defined here.
  * Uncomment and define endpoints as necessary.
@@ -32,6 +35,16 @@ app.use(
     maxAge: '1y',
     index: false,
     redirect: false,
+    setHeaders: (res, path) => {
+      // Устанавливаем правильные MIME-типы
+      if (path.endsWith('.js')) {
+        res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+      } else if (path.endsWith('.mjs')) {
+        res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+      } else if (path.endsWith('.css')) {
+        res.setHeader('Content-Type', 'text/css; charset=utf-8');
+      }
+    },
   }),
 );
 
