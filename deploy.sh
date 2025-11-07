@@ -3,7 +3,11 @@ set -e
 
 echo "🚀 Starting deployment..."
 
-# Загружаем переменные окружения
+# Загружаем переменные окружения для Bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Загружаем переменные окружения для Node/npm (fallback)
 export PATH="$HOME/.nvm/versions/node/$(nvm current)/bin:$PATH" 2>/dev/null || true
 export PATH="/usr/local/bin:/usr/bin:$PATH"
 
