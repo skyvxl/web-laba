@@ -3,6 +3,10 @@ set -e
 
 echo "🚀 Starting deployment..."
 
+# Загружаем переменные окружения
+export PATH="$HOME/.nvm/versions/node/$(nvm current)/bin:$PATH" 2>/dev/null || true
+export PATH="/usr/local/bin:/usr/bin:$PATH"
+
 # Переходим в директорию проекта
 cd "$(dirname "$0")"
 
