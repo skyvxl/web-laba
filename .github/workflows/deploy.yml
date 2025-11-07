@@ -31,12 +31,26 @@ jobs:
           ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST << 'ENDSSH'
             set -e
 
-            # Переходим в директорию проекта
-            cd ${{ secrets.TARGET_PATH }}
+            # Проверяем существование директории и git репозитория
+            if [ ! -d "${{ secrets.TARGET_PATH }}" ]; then
+              echo "📁 Creating project directory..."
+              mkdir -p ${{ secrets.TARGET_PATH }}
+              cd ${{ secrets.TARGET_PATH }}
 
-            echo "📦 Pulling latest changes from repository..."
-            git fetch origin
-            git reset --hard origin/main
+              echo "📦 Cloning repository for the first time..."
+              git clone https://github.com/skyvxl/web-laba.git .
+            else
+              cd ${{ secrets.TARGET_PATH }}
+
+              if [ ! -d ".git" ]; then
+                echo "📦 Initializing git repository..."
+                git clone https://github.com/skyvxl/web-laba.git .
+              else
+                echo "📦 Pulling latest changes from repository..."
+                git fetch origin
+                git reset --hard origin/main
+              fi
+            fi
 
             echo "📥 Installing dependencies..."
             npm ci --omit=dev
