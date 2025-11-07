@@ -25,7 +25,14 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET_PATH: ${{ secrets.TARGET_PATH }}
         run: |
-          ssh $REMOTE_USER@$REMOTE_HOST "bash -l -c 'cd $TARGET_PATH && bash deploy.sh'"
+          ssh $REMOTE_USER@$REMOTE_HOST << 'ENDSSH'
+            # Загружаем Bun в PATH
+            export BUN_INSTALL="$HOME/.bun"
+            export PATH="$BUN_INSTALL/bin:$PATH"
+
+            cd ${{ secrets.TARGET_PATH }}
+            bash deploy.sh
+          ENDSSH
 
       - name: Cleanup SSH
         if: always()
