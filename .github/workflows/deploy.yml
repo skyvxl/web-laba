@@ -1,0 +1,65 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to Server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Deploy and Build on Server
+        env:
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET_PATH: ${{ secrets.TARGET_PATH }}
+        run: |
+          ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST << 'ENDSSH'
+            set -e
+
+            # Переходим в директорию проекта
+            cd ${{ secrets.TARGET_PATH }}
+
+            echo "📦 Pulling latest changes from repository..."
+            git fetch origin
+            git reset --hard origin/main
+
+            echo "📥 Installing dependencies..."
+            npm ci --omit=dev
+
+            echo "🏗️  Building production bundle..."
+            npm run build:prod
+
+            echo "🔄 Restarting PM2 process..."
+            # Останавливаем и удаляем существующий процесс (если есть)
+            pm2 delete laba-ssr 2>/dev/null || true
+
+            # Запускаем новый процесс
+            pm2 start ecosystem.config.cjs --env production
+
+            # Сохраняем список процессов для автозапуска
+            pm2 save
+
+            echo "✅ Deployment completed successfully!"
+            pm2 status
+          ENDSSH
+
+      - name: Cleanup SSH
+        if: always()
+        run: |
+          rm -f ~/.ssh/id_rsa
+          rm -f ~/.ssh/known_hosts

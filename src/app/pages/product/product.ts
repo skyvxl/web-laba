@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../shared/models/product.model';
 import { KeyValuePipe } from '@angular/common';
@@ -9,6 +9,7 @@ import { ProductService } from '../../shared/services/product.service';
   imports: [KeyValuePipe],
   templateUrl: './product.html',
   styleUrl: './product.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductPage implements OnInit {
   product = signal<Product | null>(null);

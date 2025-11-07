@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Product } from '../../shared/models/product.model';
 import { ProductCard } from '../../shared/components/product-card/product-card';
 import { ProductService } from '../../shared/services/product.service';
@@ -10,6 +10,7 @@ import { AsyncPipe } from '@angular/common';
   imports: [ProductCard, AsyncPipe],
   templateUrl: './catalog.html',
   styleUrl: './catalog.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Catalog {
   private readonly productService: ProductService = inject(ProductService);
