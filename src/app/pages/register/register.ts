@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BaseInput } from '../../shared/components/base-input/base-input';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, BaseInput],
+  imports: [ReactiveFormsModule],
   templateUrl: './register.html',
   styleUrl: './register.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

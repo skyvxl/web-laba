@@ -1,25 +1,29 @@
-<a
-  [routerLink]="['/product', product().id]"
-  class="block border border-gray-400 hover:border-[#ff8000] transition-colors bg-white h-full"
->
-  <img
-    [alt]="product().name"
-    [src]="product().image"
-    class="w-full h-48 object-contain p-2 bg-white"
-    height="192"
-    width="192"
-  />
-  <div class="p-3 border-t border-gray-400">
-    <h3 class="font-bold text-sm mb-2 line-clamp-2">{{ product().name }}</h3>
-    <p class="text-xs text-gray-600 mb-3 line-clamp-2">{{ product().shortDescription }}</p>
-    <div class="flex items-baseline gap-2 mb-2">
-      @if (product().oldPrice) {
-        <span class="text-xs text-gray-500 line-through">{{ product().oldPrice }} ₽</span>
-      }
-      <span class="text-lg font-bold text-[#ff8000]">{{ product().price }} ₽</span>
+<div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow h-full flex flex-col">
+  <figure class="px-4 pt-4">
+    <img
+      [alt]="product().name"
+      [src]="product().image"
+      class="rounded-xl h-48 w-full object-contain"
+      height="192"
+      width="192"
+    />
+  </figure>
+  <div class="card-body flex-1 flex flex-col">
+    <h2 class="card-title text-lg line-clamp-2">{{ product().name }}</h2>
+    <p class="text-sm text-base-content/70 line-clamp-3 flex-1">{{ product().shortDescription }}</p>
+    <div class="card-actions justify-between items-center mt-4">
+      <div class="flex flex-col">
+        @if (product().oldPrice) {
+          <span class="text-sm text-base-content/50 line-through">{{ product().oldPrice }} ₽</span>
+        }
+        <span class="text-xl font-bold text-primary">{{ product().price }} ₽</span>
+      </div>
+      <button
+        class="btn btn-ghost border-2 border-base-content/20 btn-sm"
+        [routerLink]="['/product', product().id]"
+      >
+        Подробнее
+      </button>
     </div>
-    <button class="w-full bg-gray-700 text-white py-1 text-sm hover:bg-gray-600 transition-colors">
-      Подробнее
-    </button>
   </div>
-</a>
+</div>

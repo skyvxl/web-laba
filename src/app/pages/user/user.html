@@ -1,18 +1,36 @@
-<div class="p-4">
-  <h2 class="text-xl font-bold mb-4">Личный кабинет</h2>
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-2xl mx-auto">
+    <div class="card bg-base-100 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title justify-center text-2xl">Личный кабинет</h2>
 
-  @if (user()) {
-    <div class="grid grid-cols-1 gap-2 text-sm mb-4">
-      <div><span class="font-semibold">ID:</span> {{ uid() }}</div>
-      <div><span class="font-semibold">E-mail:</span> {{ email() }}</div>
-      <div><span class="font-semibold">Дата регистрации:</span> {{ creation() }}</div>
-      <div><span class="font-semibold">Последний вход:</span> {{ lastLogin() }}</div>
+        @if (user()) {
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div class="stat">
+              <div class="stat-title">ID</div>
+              <div class="stat-value text-lg">{{ uid() }}</div>
+            </div>
+            <div class="stat">
+              <div class="stat-title">E-mail</div>
+              <div class="stat-value text-lg">{{ email() }}</div>
+            </div>
+            <div class="stat">
+              <div class="stat-title">Дата регистрации</div>
+              <div class="stat-value text-sm">{{ creation() }}</div>
+            </div>
+            <div class="stat">
+              <div class="stat-title">Последний вход</div>
+              <div class="stat-value text-sm">{{ lastLogin() }}</div>
+            </div>
+          </div>
+
+          <div class="card-actions justify-center">
+            <button (click)="logout()" class="btn btn-ghost border-2 border-base-content/20">
+              Выйти
+            </button>
+          </div>
+        }
+      </div>
     </div>
-    <button
-      (click)="logout()"
-      class="bg-gray-700 text-white px-5 py-1 hover:bg-gray-600 transition-colors text-sm cursor-pointer"
-    >
-      Выйти
-    </button>
-  }
+  </div>
 </div>

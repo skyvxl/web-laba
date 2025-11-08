@@ -1,0 +1,125 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-md mx-auto">
+    <div class="card bg-base-100 shadow-xl">
+      <div class="card-body">
+        <!-- Tabs -->
+        <div role="tablist" class="tabs tabs-box mb-6">
+          <button
+            role="tab"
+            class="tab"
+            [class.tab-active]="activeTab() === 'login'"
+            (click)="setActiveTab('login')"
+            type="button"
+          >
+            Вход
+          </button>
+          <button
+            role="tab"
+            class="tab"
+            [class.tab-active]="activeTab() === 'register'"
+            (click)="setActiveTab('register')"
+            type="button"
+          >
+            Регистрация
+          </button>
+        </div>
+
+        <!-- Login Form -->
+        @if (activeTab() === 'login') {
+          <form (submit)="login(); $event.preventDefault()" novalidate class="space-y-6">
+            <h2 class="text-2xl font-bold text-center">Вход в аккаунт</h2>
+
+            @if (loginErrorMsg()) {
+              <div class="alert alert-error">
+                {{ loginErrorMsg() }}
+              </div>
+            }
+
+            <app-base-input
+              title="Email"
+              placeholder="your@email.com"
+              type="email"
+              [value]="loginEmail()"
+              (valueChange)="onLoginEmailChange($event)"
+            />
+
+            <app-base-input
+              title="Пароль"
+              placeholder="Введите пароль"
+              type="password"
+              [value]="loginPassword()"
+              (valueChange)="onLoginPasswordChange($event)"
+            />
+
+            <div class="form-control">
+              <button
+                type="submit"
+                [disabled]="loginLoading()"
+                class="btn btn-ghost border-2 border-base-content/20"
+              >
+                @if (loginLoading()) {
+                  <span class="loading loading-spinner"></span>
+                  Входим...
+                } @else {
+                  Войти
+                }
+              </button>
+            </div>
+          </form>
+        }
+
+        <!-- Register Form -->
+        @if (activeTab() === 'register') {
+          <form (submit)="register(); $event.preventDefault()" novalidate class="space-y-6">
+            <h2 class="text-2xl font-bold text-center">Регистрация</h2>
+
+            @if (registerErrorMsg()) {
+              <div class="alert alert-error">
+                {{ registerErrorMsg() }}
+              </div>
+            }
+
+            <app-base-input
+              title="Email"
+              placeholder="your@email.com"
+              type="email"
+              [value]="registerEmail()"
+              (valueChange)="onRegisterEmailChange($event)"
+            />
+
+            <app-base-input
+              title="Пароль"
+              placeholder="Минимум 6 символов"
+              type="password"
+              [value]="registerPassword()"
+              (valueChange)="onRegisterPasswordChange($event)"
+            />
+
+            <app-base-input
+              title="Подтвердите пароль"
+              placeholder="Повторите пароль"
+              type="password"
+              [value]="registerConfirmPassword()"
+              (valueChange)="onRegisterConfirmPasswordChange($event)"
+            />
+
+            <div class="form-control">
+              <button
+                type="submit"
+                [disabled]="registerLoading()"
+                class="btn btn-ghost border-2 border-base-content/20"
+              >
+                @if (registerLoading()) {
+                  <span class="loading loading-spinner"></span>
+                  Регистрируем...
+                } @else {
+                  Зарегистрироваться
+                }
+              </button>
+            </div>
+          </form>
+        }
+      </div>
+    </div>
+  </div>
+</div>

@@ -24,6 +24,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/catalog/catalog').then((m) => m.Catalog),
   },
   {
+    path: 'auth',
+    loadComponent: () => import('./pages/auth/auth').then((m) => m.Auth),
+    canActivate: [publicGuard],
+  },
+  {
     path: 'register',
     loadComponent: () => import('./pages/register/register').then((m) => m.Register),
     canActivate: [publicGuard],

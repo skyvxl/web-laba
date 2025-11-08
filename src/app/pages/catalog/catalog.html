@@ -1,20 +1,28 @@
-<h1 class="text-2xl md:text-3xl font-bold text-center mb-6">КАТАЛОГ ТОВАРОВ</h1>
+<div class="container mx-auto px-4 py-8">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold mb-4">Каталог товаров</h1>
 
-<p class="mb-6 text-gray-800 text-center">
-  В нашем каталоге представлен широкий ассортимент цифровой и бытовой техники. Выберите интересующий
-  вас товар для просмотра подробной информации.
-</p>
-
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-  @if (products$ | async; as products) {
-    @for (product of products; track product.id) {
-      <app-product-card [product]="product" />
-    }
-  } @else {
-    <div class="flex justify-center items-center w-full col-span-full">
-      <div
-        class="loader w-[50px] aspect-square rounded-full border-8 border-transparent border-r-orange-400"
-      ></div>
+    <div class="form-control">
+      <div class="join">
+        <input
+          type="text"
+          placeholder="Поиск товаров..."
+          class="input input-bordered join-item w-full max-w-md"
+        />
+        <button class="btn btn-ghost border-2 border-base-content/20 join-item">Найти</button>
+      </div>
     </div>
-  }
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    @if (products$ | async; as products) {
+      @for (product of products; track product.id) {
+        <app-product-card [product]="product" />
+      }
+    } @else {
+      <div class="flex justify-center items-center w-full col-span-full py-12">
+        <div class="loading loading-spinner loading-lg"></div>
+      </div>
+    }
+  </div>
 </div>

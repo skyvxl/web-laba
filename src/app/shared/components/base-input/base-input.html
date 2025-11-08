@@ -1,22 +1,32 @@
-@if (title()) {
-  <div class="mb-3">
-    <label for="{{ title() }}" class="font-medium">{{ title() }}</label>
-    <input
-      [formControl]="control"
-      id="{{ title() }}"
-      name="{{ title() }}"
-      type="{{ type() }}"
-      [placeholder]="placeholder() || ''"
-      [required]="required()"
-      class="w-full border border-gray-400 px-2 py-1 mt-1"
-    />
-  </div>
-} @else {
+<div class="w-full">
+  @if (title()) {
+    <div class="label mb-0.5">
+      <span class="label-text">{{ title() }}</span>
+    </div>
+  }
   <input
     [formControl]="control"
-    type="{{ type() }}"
-    [placeholder]="placeholder()"
+    [id]="title() || undefined"
+    [name]="title() || undefined"
+    [type]="type()"
+    [placeholder]="placeholder() || ''"
     [required]="required()"
-    class="w-full p-1 text-black bg-white"
+    class="input input-bordered w-full mb-2"
+    [class.input-error]="control.invalid && control.touched"
   />
-}
+  @if (control.invalid && control.touched && control.errors) {
+    <div class="label">
+      <span class="label-text-alt text-error">
+        @if (control.errors['required']) {
+          Поле обязательно для заполнения
+        }
+        @if (control.errors['email']) {
+          Некорректный email
+        }
+        @if (control.errors['minlength']) {
+          Минимальная длина: {{ control.errors['minlength'].requiredLength }} символов
+        }
+      </span>
+    </div>
+  }
+</div>

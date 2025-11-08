@@ -1,90 +1,73 @@
 @if (product(); as prod) {
-  <h1 class="text-xl md:text-3xl font-bold mb-6 uppercase">{{ prod.name }}</h1>
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="card bg-base-100 shadow-xl mb-8">
+      <div class="card-body">
+        <h1 class="text-3xl font-bold mb-4">{{ prod.name }}</h1>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <figure>
+            <img
+              [alt]="prod.name"
+              [src]="prod.image"
+              class="rounded-xl w-full h-96 object-contain"
+            />
+          </figure>
 
-  <div class="mb-6">
-    <div class="float-none md:float-right md:ml-4 mb-4 w-full md:w-1/3">
-      <a
-        [href]="prod.image"
-        class="block border border-gray-400 p-2 bg-white hover:border-[#ff8000] transition-colors"
-        target="_blank"
-      >
-        <img
-          [alt]="prod.name"
-          [src]="prod.image"
-          class="w-full h-auto object-contain"
-          height="182"
-          width="182"
-        />
-      </a>
-      <p class="text-xs text-gray-600 mt-2 text-center">
-        <i>Нажмите на изображение для просмотра в полном размере</i>
-      </p>
+          <div class="space-y-4">
+            <p class="text-base">{{ prod.shortDescription }}</p>
+
+            <div class="divider"></div>
+
+            <div class="flex flex-col gap-2">
+              @if (prod.oldPrice) {
+                <span class="text-lg text-base-content/50 line-through">{{ prod.oldPrice }} ₽</span>
+              }
+              <span class="text-3xl font-bold text-primary">{{ prod.price }} ₽</span>
+            </div>
+
+            <div class="flex gap-3">
+              <button class="btn btn-ghost border-2 border-base-content/20 flex-1">Купить</button>
+              <button class="btn btn-ghost border-2 border-base-content/20">В корзину</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="mb-4">
-      <span class="inline-block bg-orange-200 text-gray-800 px-3 py-1 text-sm font-medium">{{
-        prod.category
-      }}</span>
+    <div class="card bg-base-100 shadow-xl mb-8">
+      <div class="card-body">
+        <h2 class="card-title">Характеристики товара</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          @for (item of prod.characteristics | keyvalue; track item.key) {
+            <div class="bg-base-200 rounded-lg p-4">
+              <div class="text-sm text-base-content/70 truncate mb-1">{{ item.key }}</div>
+              <div class="text-lg font-bold truncate">{{ item.value }}</div>
+            </div>
+          }
+        </div>
+      </div>
     </div>
 
-    <div class="mb-4">
-      @if (prod.oldPrice) {
-        <div class="text-gray-500 line-through text-base md:text-lg">{{ prod.oldPrice }} ₽</div>
-      }
-      <div class="text-2xl md:text-3xl font-bold text-[#ff8000]">{{ prod.price }} ₽</div>
+    <div class="card bg-base-100 shadow-xl mb-8">
+      <div class="card-body">
+        <h2 class="card-title">Подробное описание товара</h2>
+        <p class="mb-4">
+          {{ prod.description }} Этот товар отличается высоким качеством исполнения и современными
+          технологиями. Идеально подходит как для повседневного использования, так и для
+          профессиональных задач. <strong>Официальная гарантия производителя</strong> и поддержка в
+          <em>сервисных центрах DNS</em> по всей России.
+        </p>
+
+        <h3 class="text-xl font-semibold mb-3">Особенности и преимущества:</h3>
+        <ul class="list-disc list-inside space-y-2">
+          @for (feature of prod.features; track feature) {
+            <li>{{ feature }}</li>
+          }
+        </ul>
+      </div>
     </div>
-
-    <p class="text-gray-800 mb-4 leading-relaxed">
-      <b>{{ prod.shortDescription }}</b>
-    </p>
-
-    <button
-      class="bg-gray-700 text-white py-1 px-4 md:px-6 hover:bg-gray-600 transition-colors mr-2 text-sm md:text-base"
-    >
-      Купить
-    </button>
-    <button
-      class="border border-gray-400 text-gray-800 py-1 px-4 md:px-6 hover:bg-gray-100 transition-colors text-sm md:text-base"
-    >
-      В корзину
-    </button>
   </div>
-
-  <div class="clear-both"></div>
-
-  <hr class="my-6 border-gray-400" />
-
-  <h2 class="text-2xl font-semibold mb-3">Описание товара</h2>
-  <p class="mb-6 text-gray-800 leading-relaxed">{{ prod.description }}</p>
-
-  <h2 class="text-xl md:text-2xl font-semibold mb-3">Характеристики товара</h2>
-  <div class="overflow-x-auto mb-6">
-    <table class="w-full border-4 border-gray-700 border-collapse">
-      <tbody>
-        @for (item of prod.characteristics | keyvalue; track item.key) {
-          <tr class="border-b border-gray-500">
-            <td class="p-3 border-2 border-gray-500 font-medium">{{ item.key }}</td>
-            <td class="p-3 border-2 border-gray-500">{{ item.value }}</td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-
-  <h2 class="text-xl md:text-2xl font-semibold mb-3">Подробное описание товара</h2>
-  <p class="mb-4 text-gray-800 leading-relaxed">
-    {{ prod.description }} Этот товар отличается высоким качеством исполнения и современными
-    технологиями. Идеально подходит как для повседневного использования, так и для профессиональных
-    задач. <b class="font-bold">Официальная гарантия производителя</b> и поддержка в
-    <i class="italic">сервисных центрах DNS</i> по всей России.
-  </p>
-
-  <h3 class="text-xl font-semibold mb-3">Особенности и преимущества:</h3>
-  <ul class="list-disc list-inside mb-6 pl-4">
-    @for (feature of prod.features; track feature) {
-      <li class="mb-2">{{ feature }}</li>
-    }
-  </ul>
 } @else {
-  <p class="text-center text-gray-600">Загрузка...</p>
+  <div class="flex justify-center items-center min-h-[50vh]">
+    <div class="loading loading-spinner loading-lg"></div>
+  </div>
 }
