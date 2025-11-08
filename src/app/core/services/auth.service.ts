@@ -82,6 +82,40 @@ export class AuthService {
     this.userSubject.next(null);
   }
 
+  /**
+   * Получить пользовательские настройки (prefs) из Appwrite (если доступны)
+   */
+  async getPreferences(): Promise<Record<string, unknown>> {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if ((account as any).getPrefs) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const prefs = await (account as any).getPrefs();
+        return prefs ?? {};
+      }
+    } catch {
+      // ignore
+    }
+    return {};
+  }
+
+  /**
+   * Установить одну или несколько пользовательских настроек в Appwrite prefs
+   */
+  async setPreferences(prefs: Record<string, unknown>): Promise<void> {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if ((account as any).updatePrefs) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        await (account as any).updatePrefs(prefs);
+        // refresh local user state
+        await this.checkAuthState();
+      }
+    } catch (err) {
+      console.warn('Failed to update prefs', err);
+    }
+  }
+
   getAuthState(): Observable<Models.User<Models.Preferences> | null> {
     return this.userSubject.asObservable();
   }
