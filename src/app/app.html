@@ -113,11 +113,11 @@
   </div>
 
   <!-- Mobile Drawer -->
-  <div class="drawer">
+  <div class="drawer flex-1">
     <input id="my-drawer" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content">
+    <div class="drawer-content flex flex-col">
       <!-- Main Content Grid -->
-      <div class="flex flex-1">
+      <div class="flex flex-1 min-h-0">
         <!-- Left Aside - Categories -->
         <aside class="hidden lg:block w-64 p-4 bg-base-100">
           <div class="space-y-2">
@@ -132,7 +132,7 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-4">
+        <main class="flex-1 p-4 min-h-0">
           <router-outlet></router-outlet>
         </main>
 
@@ -144,17 +144,17 @@
               <img
                 src="https://brandwiki.ru/up/brands/product/210720_554.webp"
                 alt="Ситилинк"
-                class="rounded-lg w-full h-32 object-contain bg-white p-2"
+                class="rounded-lg w-full h-32 object-contain border-2 border-base-content/20 p-2"
               />
               <img
                 src="https://assets.turbologo.ru/blog/ru/2020/02/18162818/logo-mts-ks.png"
                 alt="МТС"
-                class="rounded-lg w-full h-32 object-contain bg-white p-2"
+                class="rounded-lg w-full h-32 object-contain border-2 border-base-content/20 p-2"
               />
               <img
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQxcbHHqNVRXBkbzOlKy8svirKu53s24kZvg&s"
                 alt="iPhone"
-                class="rounded-lg w-full h-32 object-contain bg-white p-2"
+                class="rounded-lg w-full h-32 object-contain border-2 border-base-content/20 p-2"
               />
             </div>
           </div>

@@ -1,31 +1,34 @@
 <div class="container mx-auto px-4 py-8">
-  <div class="max-w-2xl mx-auto">
+  <div class="max-w-3xl mx-auto">
     <div class="card bg-base-100 shadow-xl">
       <div class="card-body">
-        <h2 class="card-title justify-center text-2xl">Личный кабинет</h2>
+        <h2 class="card-title justify-center text-3xl mb-6">Личный кабинет</h2>
 
         @if (user()) {
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <div class="stat">
-              <div class="stat-title">ID</div>
-              <div class="stat-value text-lg">{{ uid() }}</div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-base-200 rounded-lg p-4">
+              <div class="text-sm text-base-content/60 mb-1">ID</div>
+              <div class="text-lg font-semibold break-all">{{ uid() }}</div>
             </div>
-            <div class="stat">
-              <div class="stat-title">E-mail</div>
-              <div class="stat-value text-lg">{{ email() }}</div>
+            <div class="bg-base-200 rounded-lg p-4">
+              <div class="text-sm text-base-content/60 mb-1">E-mail</div>
+              <div class="text-lg font-semibold break-all">{{ email() }}</div>
             </div>
-            <div class="stat">
-              <div class="stat-title">Дата регистрации</div>
-              <div class="stat-value text-sm">{{ creation() }}</div>
+            <div class="bg-base-200 rounded-lg p-4">
+              <div class="text-sm text-base-content/60 mb-1">Дата регистрации</div>
+              <div class="text-base font-medium">{{ creation() }}</div>
             </div>
-            <div class="stat">
-              <div class="stat-title">Последний вход</div>
-              <div class="stat-value text-sm">{{ lastLogin() }}</div>
+            <div class="bg-base-200 rounded-lg p-4">
+              <div class="text-sm text-base-content/60 mb-1">Последний вход</div>
+              <div class="text-base font-medium">{{ lastLogin() }}</div>
             </div>
           </div>
 
           <div class="card-actions justify-center">
-            <button (click)="logout()" class="btn btn-ghost border-2 border-base-content/20">
+            <button
+              (click)="logout()"
+              class="btn btn-ghost border-2 border-base-content/20 btn-wide"
+            >
               Выйти
             </button>
           </div>
