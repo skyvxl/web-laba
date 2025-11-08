@@ -16,10 +16,10 @@ export class UserPage {
 
   user = toSignal(this.auth.getAuthState(), { initialValue: null });
 
-  uid = computed(() => this.user()?.uid ?? '—');
+  uid = computed(() => this.user()?.$id ?? '—');
   email = computed(() => this.user()?.email ?? '—');
-  creation = computed(() => formatDt(this.user()?.metadata?.creationTime));
-  lastLogin = computed(() => formatDt(this.user()?.metadata?.lastSignInTime));
+  creation = computed(() => formatDt(this.user()?.$createdAt));
+  lastLogin = computed(() => formatDt(this.user()?.accessedAt));
 
   async logout() {
     await this.auth.logout();

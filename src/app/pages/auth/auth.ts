@@ -84,10 +84,14 @@ export class Auth {
         this.router.navigate(['/']);
       })
       .catch((error) => {
-        if (error.code === 'auth/email-already-in-use') {
+        const message = error?.message || '';
+        if (message.includes('user_already_exists') || message.includes('already exists')) {
           this.registerErrorMsg.set('Этот email уже используется');
-        } else if (error.code === 'auth/weak-password') {
-          this.registerErrorMsg.set('Пароль должен содержать минимум 6 символов');
+        } else if (
+          message.includes('password') &&
+          (message.includes('short') || message.includes('weak'))
+        ) {
+          this.registerErrorMsg.set('Пароль должен содержать минимум 8 символов');
         } else {
           this.registerErrorMsg.set('Ошибка регистрации');
         }

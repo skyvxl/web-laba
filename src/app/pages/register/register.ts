@@ -77,27 +77,28 @@ export class Register {
       // Небольшая задержка для UX, затем переходим на главную
       setTimeout(() => this.router.navigateByUrl('/'), 500);
     } catch (e: unknown) {
-      this.errorMsg.set(mapFirebaseError(e));
+      this.errorMsg.set(mapAppwriteError(e));
     } finally {
       this.loading.set(false);
     }
   }
 }
 
-function mapFirebaseError(e: unknown): string {
-  const code = (e as { code?: string } | null | undefined)?.code;
-  switch (code) {
-    case 'auth/email-already-in-use':
-      return 'Этот e-mail уже зарегистрирован';
-    case 'auth/invalid-email':
-      return 'Некорректный e-mail';
-    case 'auth/operation-not-allowed':
-      return 'Регистрация отключена. Обратитесь к администратору';
-    case 'auth/weak-password':
-      return 'Слишком простой пароль (минимум 6 символов)';
-    case 'auth/too-many-requests':
-      return 'Слишком много попыток. Попробуйте позже';
-    default:
-      return 'Не удалось зарегистрироваться. Попробуйте ещё раз';
+function mapAppwriteError(e: unknown): string {
+  const message = (e as { message?: string } | null | undefined)?.message || '';
+  const type = (e as { type?: string } | null | undefined)?.type || '';
+
+  if (message.includes('user_already_exists') || type.includes('user_already_exists')) {
+    return 'Этот e-mail уже зарегистрирован';
   }
+  if (message.includes('Invalid email') || type.includes('user_invalid_email')) {
+    return 'Некорректный e-mail';
+  }
+  if (message.includes('password') && (message.includes('short') || message.includes('weak'))) {
+    return 'Слишком простой пароль (минимум 8 символов)';
+  }
+  if (message.includes('rate limit') || type.includes('rate_limit')) {
+    return 'Слишком много попыток. Попробуйте позже';
+  }
+  return 'Не удалось зарегистрироваться. Попробуйте ещё раз';
 }
