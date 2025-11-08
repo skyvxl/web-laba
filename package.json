@@ -9,7 +9,6 @@
     "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "prepare": "husky",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
     "format": "prettier --write src/.",
