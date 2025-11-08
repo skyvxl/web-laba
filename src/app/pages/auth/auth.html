@@ -134,8 +134,18 @@
                   [checked]="agreeConsent()"
                   (change)="onAgreeConsentChange($event.target.checked)"
                 />
-                <span class="label-text">Согласен(а) на обработку персональных данных</span>
-                <a routerLink="/consent" class="ml-2 link">(СОД)</a>
+                <span class="label-text">
+                  Согласен(а) на
+                  <a
+                    href="/consent"
+                    class="ml-1 link"
+                    target="_blank"
+                    rel="noopener"
+                    (click)="$event.stopPropagation()"
+                  >
+                    обработку персональных данных</a
+                  >
+                </span>
               </label>
             </div>
 
@@ -147,8 +157,18 @@
                   [checked]="agreePrivacy()"
                   (change)="onAgreePrivacyChange($event.target.checked)"
                 />
-                <span class="label-text">Согласен(а) с политикой конфиденциальности</span>
-                <a routerLink="/privacy" class="ml-2 link">(ПК)</a>
+                <span class="label-text">
+                  Согласен(а) с
+                  <a
+                    href="/privacy"
+                    class="ml-1 link"
+                    target="_blank"
+                    rel="noopener"
+                    (click)="$event.stopPropagation()"
+                  >
+                    полиской конфиденциальности</a
+                  >
+                </span>
               </label>
             </div>
 
