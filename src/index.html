@@ -16,5 +16,54 @@
   </head>
   <body>
     <app-root></app-root>
+    <script>
+      // Логи для проверки загрузки стилей
+      console.log('[CLIENT] DOMContentLoaded - checking styles');
+      document.addEventListener('DOMContentLoaded', () => {
+        const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
+        console.log(`[CLIENT] Found ${stylesheets.length} stylesheet(s)`);
+        stylesheets.forEach((link, i) => {
+          console.log(`[CLIENT] Stylesheet ${i + 1}: ${link.href}`);
+          link.addEventListener('load', () => {
+            console.log(`[CLIENT] ✓ Loaded: ${link.href}`);
+          });
+          link.addEventListener('error', () => {
+            console.error(`[CLIENT] ✗ Failed to load: ${link.href}`);
+          });
+        });
+
+        const styleTags = document.querySelectorAll('style');
+        console.log(`[CLIENT] Found ${styleTags.length} inline style tag(s)`);
+        styleTags.forEach((style, i) => {
+          const content = style.textContent || '';
+          console.log(`[CLIENT] Style tag ${i + 1}: ${content.length} characters`);
+          if (content.length > 0) {
+            console.log(`[CLIENT] Style tag ${i + 1} preview:`, content.substring(0, 100));
+          }
+        });
+
+        // Проверка применения стилей к body
+        setTimeout(() => {
+          const bodyStyles = window.getComputedStyle(document.body);
+          console.log('[CLIENT] Body computed styles:', {
+            fontFamily: bodyStyles.fontFamily,
+            fontSize: bodyStyles.fontSize,
+            margin: bodyStyles.margin,
+            padding: bodyStyles.padding,
+            backgroundColor: bodyStyles.backgroundColor,
+          });
+
+          const appRoot = document.querySelector('app-root');
+          if (appRoot) {
+            const appStyles = window.getComputedStyle(appRoot);
+            console.log('[CLIENT] app-root computed styles:', {
+              display: appStyles.display,
+              width: appStyles.width,
+              height: appStyles.height,
+            });
+          }
+        }, 500);
+      });
+    </script>
   </body>
 </html>

@@ -36,13 +36,17 @@ app.use(
     index: false,
     redirect: false,
     setHeaders: (res, path) => {
+      console.log(`[STATIC] Serving file: ${path}`);
       // Устанавливаем правильные MIME-типы
       if (path.endsWith('.js')) {
         res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+        console.log(`[STATIC] Content-Type: application/javascript`);
       } else if (path.endsWith('.mjs')) {
         res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+        console.log(`[STATIC] Content-Type: application/javascript`);
       } else if (path.endsWith('.css')) {
         res.setHeader('Content-Type', 'text/css; charset=utf-8');
+        console.log(`[STATIC] Content-Type: text/css`);
       }
     },
   }),
@@ -52,10 +56,22 @@ app.use(
  * Handle all other requests by rendering the Angular application.
  */
 app.use((req, res, next) => {
+  console.log(`[SSR] Request: ${req.method} ${req.url}`);
   angularApp
     .handle(req)
-    .then((response) => (response ? writeResponseToNodeResponse(response, res) : next()))
-    .catch(next);
+    .then((response) => {
+      if (response) {
+        console.log(`[SSR] Rendering: ${req.url}`);
+        writeResponseToNodeResponse(response, res);
+      } else {
+        console.log(`[SSR] No response, passing to next middleware: ${req.url}`);
+        next();
+      }
+    })
+    .catch((err) => {
+      console.error(`[SSR] Error rendering ${req.url}:`, err);
+      next(err);
+    });
 });
 
 /**
