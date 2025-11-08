@@ -16,13 +16,7 @@
     "deploy": "firebase deploy",
     "fix": "npm run format && npm run lint:fix",
     "serve:ssr": "node dist/laba/server/server.mjs",
-    "serve:ssr:laba": "node dist/laba/server/server.mjs",
-    "pm2:start": "pm2 start dist/laba/server/server.mjs --name laba-ssr",
-    "pm2:stop": "pm2 stop laba-ssr",
-    "pm2:restart": "pm2 restart laba-ssr",
-    "pm2:delete": "pm2 delete laba-ssr",
-    "pm2:logs": "pm2 logs laba-ssr",
-    "pm2:status": "pm2 status"
+    "serve:ssr:laba": "node dist/laba/server/server.mjs"
   },
   "prettier": {
     "printWidth": 100,
