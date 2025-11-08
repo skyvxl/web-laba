@@ -29,9 +29,12 @@ export const routes: Routes = [
     canActivate: [publicGuard],
   },
   {
-    path: 'register',
-    loadComponent: () => import('./pages/register/register').then((m) => m.Register),
-    canActivate: [publicGuard],
+    path: 'consent',
+    loadComponent: () => import('./pages/consent/consent').then((m) => m.ConsentPage),
+  },
+  {
+    path: 'privacy',
+    loadComponent: () => import('./pages/privacy/privacy').then((m) => m.PrivacyPage),
   },
   {
     path: 'product/:id',

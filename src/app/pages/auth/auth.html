@@ -80,19 +80,41 @@
             }
 
             <app-base-input
+              title="Имя"
+              placeholder="Ваше имя"
+              type="text"
+              [value]="registerName()"
+              (valueChange)="onRegisterNameChange($event)"
+              [required]="true"
+            />
+
+            <app-base-input
+              title="Телефон"
+              placeholder="+7XXXXXXXXXX"
+              type="tel"
+              [value]="registerPhone()"
+              (valueChange)="onRegisterPhoneChange($event)"
+              [required]="true"
+              [prefix]="'+7'"
+              [immutablePrefix]="true"
+            />
+
+            <app-base-input
               title="Email"
               placeholder="your@email.com"
               type="email"
               [value]="registerEmail()"
               (valueChange)="onRegisterEmailChange($event)"
+              [required]="true"
             />
 
             <app-base-input
               title="Пароль"
-              placeholder="Минимум 6 символов"
+              placeholder="Минимум 8 символов"
               type="password"
               [value]="registerPassword()"
               (valueChange)="onRegisterPasswordChange($event)"
+              [required]="true"
             />
 
             <app-base-input
@@ -101,12 +123,39 @@
               type="password"
               [value]="registerConfirmPassword()"
               (valueChange)="onRegisterConfirmPasswordChange($event)"
+              [required]="true"
             />
+
+            <div class="form-control">
+              <label class="cursor-pointer label">
+                <input
+                  type="checkbox"
+                  class="checkbox mr-2"
+                  [checked]="agreeConsent()"
+                  (change)="onAgreeConsentChange($event.target.checked)"
+                />
+                <span class="label-text">Согласен(а) на обработку персональных данных</span>
+                <a routerLink="/consent" class="ml-2 link">(СОД)</a>
+              </label>
+            </div>
+
+            <div class="form-control">
+              <label class="cursor-pointer label">
+                <input
+                  type="checkbox"
+                  class="checkbox mr-2"
+                  [checked]="agreePrivacy()"
+                  (change)="onAgreePrivacyChange($event.target.checked)"
+                />
+                <span class="label-text">Согласен(а) с политикой конфиденциальности</span>
+                <a routerLink="/privacy" class="ml-2 link">(ПК)</a>
+              </label>
+            </div>
 
             <div class="form-control">
               <button
                 type="submit"
-                [disabled]="registerLoading()"
+                [disabled]="registerLoading() || !agreeConsent() || !agreePrivacy()"
                 class="btn btn-ghost border-2 border-base-content/20"
               >
                 @if (registerLoading()) {

@@ -43,6 +43,7 @@
     "appwrite": "^21.4.0",
     "daisyui": "^5.4.7",
     "express": "^5.1.0",
+    "imask": "^7.6.1",
     "install": "^0.13.0",
     "node-appwrite": "^20.3.0",
     "postcss": "^8.5.6",

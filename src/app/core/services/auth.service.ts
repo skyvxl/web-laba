@@ -50,9 +50,30 @@ export class AuthService {
     return session;
   }
 
-  async register(email: string, password: string): Promise<Models.User<Models.Preferences>> {
-    const user = await account.create(ID.unique(), email, password);
+  async register(
+    email: string,
+    password: string,
+    name?: string,
+    phone?: string,
+  ): Promise<Models.User<Models.Preferences>> {
+    const user = await account.create(ID.unique(), email, password, name || undefined);
+
+    // Создаём сессию
     await this.login(email, password);
+
+    try {
+      if (phone) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        if ((account as any).updatePhone) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          await (account as any).updatePhone({ phone, password });
+          await this.checkAuthState();
+        }
+      }
+    } catch (err) {
+      console.warn('Failed to update phone on register', err);
+    }
+
     return user;
   }
 

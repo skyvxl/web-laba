@@ -18,6 +18,8 @@ export class UserPage {
 
   uid = computed(() => this.user()?.$id ?? '—');
   email = computed(() => this.user()?.email ?? '—');
+  name = computed(() => this.user()?.name ?? '—');
+  phone = computed(() => this.user()?.phone ?? '—');
   creation = computed(() => formatDt(this.user()?.$createdAt));
   lastLogin = computed(() => formatDt(this.user()?.accessedAt));
 

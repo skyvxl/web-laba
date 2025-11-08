@@ -184,7 +184,11 @@
 
     <!-- Footer -->
     <div class="navbar bg-base-100 border-t mt-0 justify-center">
-      <span class="text-xs text-base-content">&copy; 2025 DNS. Все права защищены</span>
+      <div class="flex items-center gap-4">
+        <span class="text-xs text-base-content">&copy; 2025 DNS. Все права защищены</span>
+        <a routerLink="/consent" class="text-xs link">Согласие на обработку данных</a>
+        <a routerLink="/privacy" class="text-xs link">Политика конфиденциальности</a>
+      </div>
     </div>
   } @else {
     <!-- Loader during initialization -->
