@@ -15,6 +15,7 @@ export class App {
   private router = inject(Router);
 
   user = toSignal(this.auth.getAuthState(), { initialValue: null });
+  initialized = toSignal(this.auth.getInitialized(), { initialValue: false });
 
   async logout() {
     await this.auth.logout();

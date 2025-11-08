@@ -1,6 +1,6 @@
-import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID, TransferState } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { account, ID } from '../config/appwrite';
 import type { Models } from 'appwrite';
 
@@ -9,11 +9,26 @@ import type { Models } from 'appwrite';
 })
 export class AuthService {
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly transferState = inject(TransferState);
   private userSubject = new BehaviorSubject<Models.User<Models.Preferences> | null>(null);
+  private initializedSubject = new BehaviorSubject<boolean>(false);
+  private initPromise: Promise<void> | null = null;
 
   constructor() {
+    this.initPromise = this.initializeAuth();
+  }
+
+  private async initializeAuth(): Promise<void> {
+    // На сервере не делаем запрос к Appwrite - cookies недоступны
+    if (isPlatformServer(this.platformId)) {
+      this.userSubject.next(null);
+      this.initializedSubject.next(true);
+      return;
+    }
+
+    // На клиенте всегда проверяем реальное состояние сессии
     if (isPlatformBrowser(this.platformId)) {
-      this.checkAuthState();
+      await this.checkAuthState();
     }
   }
 
@@ -21,9 +36,11 @@ export class AuthService {
     try {
       const user = await account.get();
       this.userSubject.next(user);
-    } catch (error) {
-      // Игнорируем ошибку 401 (пользователь не авторизован) - это нормально
+    } catch {
+      // Пользователь не авторизован
       this.userSubject.next(null);
+    } finally {
+      this.initializedSubject.next(true);
     }
   }
 
@@ -46,5 +63,29 @@ export class AuthService {
 
   getAuthState(): Observable<Models.User<Models.Preferences> | null> {
     return this.userSubject.asObservable();
+  }
+
+  getInitialized(): Observable<boolean> {
+    return this.initializedSubject.asObservable();
+  }
+
+  async waitForInitialization(): Promise<Models.User<Models.Preferences> | null> {
+    // Ждем завершения первичной инициализации
+    if (this.initPromise) {
+      await this.initPromise;
+    }
+
+    if (this.initializedSubject.value) {
+      return this.userSubject.value;
+    }
+
+    return new Promise((resolve) => {
+      const sub = this.initializedSubject.subscribe((initialized) => {
+        if (initialized) {
+          sub.unsubscribe();
+          resolve(this.userSubject.value);
+        }
+      });
+    });
   }
 }

@@ -1,42 +1,12 @@
 <div class="min-h-screen bg-base-200 flex flex-col">
-  <!-- Navbar -->
-  <div class="navbar bg-base-100 border-b">
-    <div class="navbar-start">
-      <label for="my-drawer" class="btn btn-ghost btn-square lg:hidden">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 6h16M4 12h8m-8 6h16"
-          />
-        </svg>
-      </label>
-      <a routerLink="/" class="btn btn-ghost text-xl">
-        <img src="image.png" alt="DNS" class="h-8 w-8" />
-        DNS Магазин
-      </a>
-    </div>
-    <div class="navbar-center hidden lg:flex">
-      <ul class="menu menu-horizontal px-1">
-        <li><a routerLink="/" class="btn btn-ghost">Главная</a></li>
-        <li><a routerLink="/about" class="btn btn-ghost">О нас</a></li>
-        <li><a routerLink="/catalog" class="btn btn-ghost">Каталог</a></li>
-        <li><a routerLink="/contacts" class="btn btn-ghost">Контакты</a></li>
-      </ul>
-    </div>
-    <div class="navbar-end">
-      @if (!user()) {
-        <a routerLink="/auth" class="btn btn-ghost gap-2">
+  @if (initialized()) {
+    <!-- Navbar -->
+    <div class="navbar bg-base-100 border-b">
+      <div class="navbar-start">
+        <label for="my-drawer" class="btn btn-ghost btn-square lg:hidden">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
+            class="h-5 w-5"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -45,144 +15,181 @@
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
-              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+              d="M4 6h16M4 12h8m-8 6h16"
             />
           </svg>
-          Войти
+        </label>
+        <a routerLink="/" class="btn btn-ghost text-xl">
+          <img src="image.png" alt="DNS" class="h-8 w-8" />
+          DNS Магазин
         </a>
-      } @else {
-        <div class="dropdown dropdown-end">
-          <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-            <div class="w-10 rounded-full">
-              <img
-                alt="User"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+      </div>
+      <div class="navbar-center hidden lg:flex">
+        <ul class="menu menu-horizontal px-1">
+          <li><a routerLink="/" class="btn btn-ghost">Главная</a></li>
+          <li><a routerLink="/about" class="btn btn-ghost">О нас</a></li>
+          <li><a routerLink="/catalog" class="btn btn-ghost">Каталог</a></li>
+          <li><a routerLink="/contacts" class="btn btn-ghost">Контакты</a></li>
+        </ul>
+      </div>
+      <div class="navbar-end">
+        @if (!user()) {
+          <a routerLink="/auth" class="btn btn-ghost gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
               />
+            </svg>
+            Войти
+          </a>
+        } @else {
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+              <div class="w-10 rounded-full">
+                <img
+                  alt="User"
+                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                />
+              </div>
             </div>
-          </div>
-          <ul
-            tabindex="0"
-            class="menu dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow-xl border"
-          >
-            <li>
-              <a routerLink="/user" class="btn btn-ghost justify-start">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+            <ul
+              tabindex="0"
+              class="menu dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow-xl border"
+            >
+              <li>
+                <a routerLink="/user" class="btn btn-ghost justify-start">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
+                  </svg>
+                  Профиль
+                </a>
+              </li>
+              <li>
+                <button
+                  (click)="logout()"
+                  (keydown.enter)="logout()"
+                  class="btn btn-ghost justify-start"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
-                </svg>
-                Профиль
-              </a>
-            </li>
-            <li>
-              <button
-                (click)="logout()"
-                (keydown.enter)="logout()"
-                class="btn btn-ghost justify-start"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                  />
-                </svg>
-                Выйти
-              </button>
-            </li>
-          </ul>
-        </div>
-      }
-    </div>
-  </div>
-
-  <!-- Mobile Drawer -->
-  <div class="drawer flex-1">
-    <input id="my-drawer" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content flex flex-col">
-      <!-- Main Content Grid -->
-      <div class="flex flex-1 min-h-0">
-        <!-- Left Aside - Categories -->
-        <aside class="hidden lg:block w-64 p-4 bg-base-100">
-          <div class="space-y-2">
-            <h3 class="menu-title">Категории</h3>
-            <ul class="menu">
-              <li><a class="btn btn-ghost justify-start">Смартфоны</a></li>
-              <li><a class="btn btn-ghost justify-start">Ноутбуки</a></li>
-              <li><a class="btn btn-ghost justify-start">Бытовая техника</a></li>
-              <li><a class="btn btn-ghost justify-start">Аксессуары</a></li>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                    />
+                  </svg>
+                  Выйти
+                </button>
+              </li>
             </ul>
           </div>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="flex-1 p-4 min-h-0">
-          <router-outlet></router-outlet>
-        </main>
-
-        <!-- Right Aside - Partners -->
-        <aside class="hidden xl:block w-64 p-4 bg-base-100">
-          <div class="space-y-4">
-            <h3 class="font-bold text-lg">Партнеры</h3>
-            <div class="space-y-3">
-              <img
-                src="https://brandwiki.ru/up/brands/product/210720_554.webp"
-                alt="Ситилинк"
-                class="rounded-lg w-full h-32 object-contain border-2 border-base-content/20 p-2"
-              />
-              <img
-                src="https://assets.turbologo.ru/blog/ru/2020/02/18162818/logo-mts-ks.png"
-                alt="МТС"
-                class="rounded-lg w-full h-32 object-contain border-2 border-base-content/20 p-2"
-              />
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQxcbHHqNVRXBkbzOlKy8svirKu53s24kZvg&s"
-                alt="iPhone"
-                class="rounded-lg w-full h-32 object-contain border-2 border-base-content/20 p-2"
-              />
-            </div>
-          </div>
-        </aside>
+        }
       </div>
     </div>
 
-    <!-- Mobile Sidebar with Navigation -->
-    <div class="drawer-side z-50">
-      <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
-      <ul class="menu bg-base-100 min-h-full w-64 p-4">
-        <li class="menu-title">Навигация</li>
-        <li><a routerLink="/" class="btn btn-ghost justify-start">Главная</a></li>
-        <li><a routerLink="/about" class="btn btn-ghost justify-start">О нас</a></li>
-        <li><a routerLink="/catalog" class="btn btn-ghost justify-start">Каталог</a></li>
-        <li><a routerLink="/contacts" class="btn btn-ghost justify-start">Контакты</a></li>
-        <div class="divider"></div>
-        <li class="menu-title">Категории</li>
-        <li><a class="btn btn-ghost justify-start">Смартфоны</a></li>
-        <li><a class="btn btn-ghost justify-start">Ноутбуки</a></li>
-        <li><a class="btn btn-ghost justify-start">Бытовая техника</a></li>
-        <li><a class="btn btn-ghost justify-start">Аксессуары</a></li>
-      </ul>
-    </div>
-  </div>
+    <!-- Mobile Drawer -->
+    <div class="drawer flex-1">
+      <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content flex flex-col">
+        <!-- Main Content Grid -->
+        <div class="flex flex-1 min-h-0">
+          <!-- Left Aside - Categories -->
+          <aside class="hidden lg:block w-64 p-4 bg-base-100">
+            <div class="space-y-2">
+              <h3 class="menu-title">Категории</h3>
+              <ul class="menu">
+                <li><a class="btn btn-ghost justify-start">Смартфоны</a></li>
+                <li><a class="btn btn-ghost justify-start">Ноутбуки</a></li>
+                <li><a class="btn btn-ghost justify-start">Бытовая техника</a></li>
+                <li><a class="btn btn-ghost justify-start">Аксессуары</a></li>
+              </ul>
+            </div>
+          </aside>
 
-  <!-- Footer -->
-  <div class="navbar bg-base-100 border-t mt-0 justify-center">
-    <span class="text-xs text-base-content">&copy; 2025 DNS. Все права защищены</span>
-  </div>
+          <!-- Main Content -->
+          <main class="flex-1 p-4 min-h-0">
+            <router-outlet></router-outlet>
+          </main>
+
+          <!-- Right Aside - Partners -->
+          <aside class="hidden xl:block w-64 p-4 bg-base-100">
+            <div class="space-y-4">
+              <h3 class="font-bold text-lg">Партнеры</h3>
+              <div class="space-y-3">
+                <img
+                  src="https://brandwiki.ru/up/brands/product/210720_554.webp"
+                  alt="Ситилинк"
+                  class="rounded-lg w-full h-32 object-contain border-2 border-base-content/20 p-2"
+                />
+                <img
+                  src="https://assets.turbologo.ru/blog/ru/2020/02/18162818/logo-mts-ks.png"
+                  alt="МТС"
+                  class="rounded-lg w-full h-32 object-contain border-2 border-base-content/20 p-2"
+                />
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQxcbHHqNVRXBkbzOlKy8svirKu53s24kZvg&s"
+                  alt="iPhone"
+                  class="rounded-lg w-full h-32 object-contain border-2 border-base-content/20 p-2"
+                />
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <!-- Mobile Sidebar with Navigation -->
+      <div class="drawer-side z-50">
+        <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+        <ul class="menu bg-base-100 min-h-full w-64 p-4">
+          <li class="menu-title">Навигация</li>
+          <li><a routerLink="/" class="btn btn-ghost justify-start">Главная</a></li>
+          <li><a routerLink="/about" class="btn btn-ghost justify-start">О нас</a></li>
+          <li><a routerLink="/catalog" class="btn btn-ghost justify-start">Каталог</a></li>
+          <li><a routerLink="/contacts" class="btn btn-ghost justify-start">Контакты</a></li>
+          <div class="divider"></div>
+          <li class="menu-title">Категории</li>
+          <li><a class="btn btn-ghost justify-start">Смартфоны</a></li>
+          <li><a class="btn btn-ghost justify-start">Ноутбуки</a></li>
+          <li><a class="btn btn-ghost justify-start">Бытовая техника</a></li>
+          <li><a class="btn btn-ghost justify-start">Аксессуары</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="navbar bg-base-100 border-t mt-0 justify-center">
+      <span class="text-xs text-base-content">&copy; 2025 DNS. Все права защищены</span>
+    </div>
+  } @else {
+    <!-- Loader during initialization -->
+    <div class="flex justify-center items-center min-h-screen">
+      <div class="loading loading-spinner loading-lg text-primary"></div>
+    </div>
+  }
 </div>
