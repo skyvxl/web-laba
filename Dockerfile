@@ -1,23 +1,29 @@
-# Use Node.js 22 Alpine as base image
-FROM node:22-alpine
+# --- ЭТАП 1: СБОРКА (Builder) ---
+FROM node:22-alpine AS build
 
-# Set working directory
 WORKDIR /app
 
-# Copy package files
 COPY package*.json ./
 
-# Install dependencies
 RUN npm ci
 
-# Copy source code
 COPY . .
 
-# Build the application
 RUN npm run build:prod
 
-# Expose port 4000
-EXPOSE 4000
+# --- ЭТАП 2: ИСПОЛНЕНИЕ (Runner) ---
+FROM node:22-alpine
 
-# Start the SSR server
-CMD ["npm", "run", "serve:ssr"]
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install --omit=dev
+
+COPY --from=build /app/dist ./dist
+
+ENV PORT=4000
+
+EXPOSE $PORT
+
+CMD [ "node", "dist/laba/server/server.mjs" ]
