@@ -32,7 +32,7 @@ app.set('trust proxy', true);
  */
 app.use(
   express.static(browserDistFolder, {
-    maxAge: '1y',
+    maxAge: '1h',
     index: false,
     redirect: false,
     setHeaders: (res, path) => {
