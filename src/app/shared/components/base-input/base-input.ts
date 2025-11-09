@@ -43,6 +43,7 @@ export class BaseInput implements AfterViewInit, OnDestroy {
   @ViewChild('inputRef', { static: true }) inputRef!: ElementRef<HTMLInputElement>;
 
   private mask: MaskLike | null = null;
+  private keydownHandler: ((e: KeyboardEvent) => void) | null = null;
 
   private destroyRef: DestroyRef = inject(DestroyRef);
 
@@ -188,10 +189,58 @@ export class BaseInput implements AfterViewInit, OnDestroy {
 
         // При приёме ввода синхронизируем FormControl
         this.mask.on?.('accept', () => {
-          const v = String(this.mask?.value ?? '');
-          this.control.setValue(v, { emitEvent: false });
+          let v = String(this.mask?.value ?? '');
+
+          // Нормализация для случая immutable префикса (например "+7")
+          const p = this.prefix?.() ?? '';
+          if (p && this.immutablePrefix?.()) {
+            // Если значение пустое или состоит только из плюсов — восстанавливаем префикс
+            if (!v || /^\++$/.test(v)) {
+              v = p;
+            } else {
+              if (!v.startsWith(p)) v = p + v;
+              // Удаляем лишние плюсы после префикса (например "+7+" -> "+7")
+              const after = v.slice(p.length).replace(/\+/g, '');
+              v = p + after;
+            }
+          }
+
+          // Синхронизируем контрол и эмитим значение
+          try {
+            if (this.control.value !== v) this.control.setValue(v, { emitEvent: false });
+          } catch {
+            // ignore
+          }
           this.valueChange.emit(v);
+
+          // Убедимся, что маска тоже содержит нормализованное значение
+          try {
+            if (this.mask && this.mask.value !== v) this.mask.value = v;
+          } catch {
+            // ignore
+          }
         });
+
+        // Если установлен immutable prefix — предотвратить удаление префикса клавишами Backspace/Delete
+        if (this.immutablePrefix?.() && this.prefix?.() && this.inputRef?.nativeElement) {
+          const prefixLen = (this.prefix() ?? '').length;
+          this.keydownHandler = (ev: KeyboardEvent) => {
+            const el = this.inputRef.nativeElement as HTMLInputElement;
+            const start = el.selectionStart ?? 0;
+
+            // Если выделение полностью справа от префикса — разрешаем
+            if (start >= prefixLen) return;
+
+            // В остальных случаях блокируем удаление внутри префикса
+            if (ev.key === 'Backspace' || ev.key === 'Delete') {
+              ev.preventDefault();
+            }
+          };
+          this.inputRef.nativeElement.addEventListener(
+            'keydown',
+            this.keydownHandler as EventListener,
+          );
+        }
       }
     } catch {
       // Если imask не доступен — ничего страшного, продолжим без маски
@@ -204,6 +253,17 @@ export class BaseInput implements AfterViewInit, OnDestroy {
       if (this.mask) {
         this.mask.destroy?.();
         this.mask = null;
+      }
+      if (this.keydownHandler && this.inputRef?.nativeElement) {
+        try {
+          this.inputRef.nativeElement.removeEventListener(
+            'keydown',
+            this.keydownHandler as EventListener,
+          );
+        } catch {
+          // ignore
+        }
+        this.keydownHandler = null;
       }
     } catch {
       // noop
