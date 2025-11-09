@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-base-200 flex flex-col">
+<div class="min-h-screen bg-base-200 flex flex-col overflow-x-hidden">
   @if (initialized()) {
     <!-- Navbar -->
     <div class="navbar bg-base-100 border-b">
@@ -19,9 +19,9 @@
             />
           </svg>
         </label>
-        <a routerLink="/" class="btn btn-ghost text-xl">
+        <a routerLink="/" class="btn btn-ghost text-lg sm:text-xl gap-2 flex items-center">
           <img ngSrc="image.png" alt="DNS" class="h-8 w-8" height="64" width="64" />
-          DNS Магазин
+          <span class="truncate">DNS Магазин</span>
         </a>
       </div>
       <div class="navbar-center hidden lg:flex">
@@ -146,7 +146,7 @@
       <input id="my-drawer" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content flex flex-col">
         <!-- Main Content Grid -->
-        <div class="flex flex-1 min-h-0">
+        <div class="flex flex-1 min-h-0 min-w-0">
           <!-- Left Aside - Categories -->
           <aside class="hidden lg:block w-64 p-4 bg-base-100">
             <div class="space-y-2">
@@ -161,7 +161,7 @@
           </aside>
 
           <!-- Main Content -->
-          <main class="flex-1 p-4 min-h-0">
+          <main class="flex-1 p-4 min-h-0 min-w-0">
             <router-outlet></router-outlet>
           </main>
 
