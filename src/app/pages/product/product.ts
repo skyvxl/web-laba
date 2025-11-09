@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../shared/models/product.model';
-import { KeyValuePipe, DOCUMENT } from '@angular/common';
+import { KeyValuePipe, DOCUMENT, NgOptimizedImage } from '@angular/common';
 import { ProductService } from '../../shared/services/product.service';
 import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product',
-  imports: [KeyValuePipe],
+  imports: [KeyValuePipe, NgOptimizedImage],
   templateUrl: './product.html',
   styleUrl: './product.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -9,9 +9,12 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <figure>
             <img
+              [ngSrc]="prod.image"
               [alt]="prod.name"
-              [src]="prod.image"
               class="rounded-xl w-full h-96 object-contain"
+              width="800"
+              height="384"
+              priority
             />
           </figure>
 
