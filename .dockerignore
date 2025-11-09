@@ -1,21 +1,27 @@
+# Зависимости и логи
 node_modules
 npm-debug.log
+*.log
+
+# Артефакты сборки
 dist
-.git
-.gitignore
-README.md
-.env
 .nyc_output
 coverage
 .coverage
+
+# Git
+.git
+.gitignore
+
+# Настройки IDE и локальной среды
 .idea
 .vscode
-*.log
 .DS_Store
-.firebase
-.firebaserc
-.firebase/
-.husky/
-.idea/
-.postcssrc.json
+.env
 .bun.lock
+
+# Служебные файлы проекта
+README.md
+
+# Конфигурация CI/CD и хуков
+.husky/
