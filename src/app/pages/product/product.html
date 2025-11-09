@@ -1,4 +1,7 @@
 @if (product(); as prod) {
+  <script type="application/ld+json">
+    {{ jsonLd() }}
+  </script>
   <div class="max-w-7xl mx-auto px-4 py-8">
     <div class="card bg-base-100 shadow-xl mb-8">
       <div class="card-body">

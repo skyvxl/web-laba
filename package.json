@@ -14,8 +14,7 @@
     "format": "prettier --write src/.",
     "deploy": "firebase deploy",
     "fix": "npm run format && npm run lint:fix",
-    "serve:ssr": "node dist/laba/server/server.mjs",
-    "serve:ssr:laba": "node dist/laba/server/server.mjs"
+    "serve:ssr": "node dist/laba/server/server.mjs"
   },
   "prettier": {
     "printWidth": 100,

@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject, signal, effect } from '@angular/core';
+import { Title, Meta } from '@angular/platform-browser';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AuthService } from './core/services/auth.service';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink, NgOptimizedImage],
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -13,6 +15,8 @@ import { AuthService } from './core/services/auth.service';
 export class App {
   private readonly auth = inject(AuthService);
   private router = inject(Router);
+  private title = inject(Title);
+  private meta = inject(Meta);
 
   user = toSignal(this.auth.getAuthState(), { initialValue: null });
   initialized = toSignal(this.auth.getInitialized(), { initialValue: false });
@@ -25,6 +29,19 @@ export class App {
   }
 
   constructor() {
+    // set some sane defaults for SEO (will be overridden by page components)
+    try {
+      this.title.setTitle('DNS - Магазин Электроники');
+      this.meta.updateTag({
+        name: 'description',
+        content:
+          'DNS магазин электроники и бытовой техники — широкий ассортимент, выгодные цены и официальная гарантия.',
+      });
+      this.meta.updateTag({ property: 'og:site_name', content: 'DNS Магазин' });
+      this.meta.updateTag({ property: 'og:type', content: 'website' });
+    } catch {
+      // ignore on server side if unavailable
+    }
     // initial theme: prefer stored local value, otherwise user's pref (when available)
     try {
       const stored = typeof window !== 'undefined' ? localStorage.getItem('theme') : null;
