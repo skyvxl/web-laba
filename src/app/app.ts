@@ -87,14 +87,5 @@ export class App {
     // project uses named themes: 'cosmicburst' (dark) and 'caramellatte' (light)
     const next = this.theme() === 'cosmicburst' ? 'caramellatte' : 'cosmicburst';
     this.setTheme(next);
-    // persist to user prefs if logged in
-    try {
-      const u = this.user();
-      if (u) {
-        await this.auth.setPreferences({ theme: next });
-      }
-    } catch {
-      // ignore
-    }
   }
 }

@@ -32,6 +32,58 @@
             </div>
           </div>
 
+          <div class="bg-base-200 rounded-lg p-4 mb-4">
+            <div class="text-sm text-base-content/60 mb-2">Тема интерфейса</div>
+            <div class="flex items-center gap-4">
+              <div class="dropdown">
+                <button
+                  type="button"
+                  class="btn btn-outline m-1"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                >
+                  {{ selectedTheme() === 'caramellatte' ? 'Светлая' : 'Тёмная' }}
+                </button>
+                <ul
+                  tabindex="0"
+                  role="listbox"
+                  class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+                >
+                  <li>
+                    <button
+                      type="button"
+                      class="w-full text-left"
+                      (click)="selectedTheme.set('caramellatte')"
+                    >
+                      Светлая
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                      class="w-full text-left"
+                      (click)="selectedTheme.set('cosmicburst')"
+                    >
+                      Тёмная
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              <button
+                (click)="saveThemePreference()"
+                class="btn btn-sm btn-ghost border-2 border-base-content/20"
+              >
+                Сохранить в профиле
+              </button>
+              <div class="text-sm text-success ml-2">{{ saveStatus() }}</div>
+            </div>
+            <div class="text-xs text-base-content/60 mt-2">
+              Переключение темы в шапке остаётся локальным. Нажмите «Сохранить в профиле», чтобы
+              сохранить предпочтение на сервере.
+            </div>
+          </div>
+
           <div class="card-actions justify-center">
             <button
               (click)="logout()"
