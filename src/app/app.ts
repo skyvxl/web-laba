@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, signal, effect } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+  effect,
+  computed,
+} from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -22,6 +29,15 @@ export class App {
   initialized = toSignal(this.auth.getInitialized(), { initialValue: false });
   // default light theme for this project is `caramellatte`
   theme = signal<string>('caramellatte');
+  avatarUrl = computed(() => {
+    const u = this.user();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const prefs = (u as any)?.prefs as Record<string, unknown> | undefined;
+    const fileId = (prefs && (prefs['avatarFileId'] as string | undefined)) ?? '';
+    if (!fileId) return '';
+    return this.auth.getAvatarUrl(fileId);
+  });
+  avatarInitial = computed(() => (this.user()?.name?.[0] ?? '').toUpperCase());
 
   async logout() {
     await this.auth.logout();

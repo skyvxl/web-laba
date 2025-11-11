@@ -80,13 +80,16 @@
         } @else {
           <div class="dropdown dropdown-end">
             <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-              <div class="w-10 rounded-full">
-                <img
-                  alt="User"
-                  ngSrc="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                  width="40"
-                  height="40"
-                />
+              <div class="w-10 rounded-full border-2 border-base-content/20">
+                @if (avatarUrl(); as url) {
+                  <img [ngSrc]="url" alt="User avatar" width="40" height="40" />
+                } @else {
+                  <div
+                    class="w-full h-full rounded-full bg-neutral text-white flex items-center justify-center font-bold"
+                  >
+                    {{ avatarInitial() }}
+                  </div>
+                }
               </div>
             </div>
             <ul

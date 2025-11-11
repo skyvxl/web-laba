@@ -181,7 +181,11 @@ export class Auth {
           this.registerErrorMsg.set('Пароль должен содержать минимум 8 символов');
         } else {
           // fallback — если Appwrite отдаст структуру error.message или error.response
-          this.registerErrorMsg.set(msg || 'Ошибка регистрации');
+          if (msg === 'phone_already_exists') {
+            this.registerErrorMsg.set('Этот номер уже зарегистрирован');
+          } else {
+            this.registerErrorMsg.set(msg || 'Ошибка регистрации');
+          }
         }
       })
       .finally(() => {
