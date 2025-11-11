@@ -61,11 +61,14 @@ export class App {
     }
 
     // react to user logging in and apply their pref
+    // Respect local selection: if a local theme is set in localStorage, it takes precedence
     effect(() => {
       const u = this.user();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const userPref = (u as any)?.prefs?.theme as string | undefined;
-      if (userPref) {
+      const stored = typeof window !== 'undefined' ? localStorage.getItem('theme') : null;
+      // Apply server preference only when there's no local override
+      if (!stored && userPref) {
         this.setTheme(userPref);
       }
     });
