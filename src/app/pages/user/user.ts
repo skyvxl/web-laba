@@ -29,6 +29,9 @@ export class UserPage {
   themeStatus = signal<string>('');
   avatarStatus = signal<string>('');
   uploadingAvatar = signal<boolean>(false);
+  themeStatusFadingOut = signal<boolean>(false);
+  avatarStatusFadingOut = signal<boolean>(false);
+  settingsStatusFadingOut = signal<boolean>(false);
   avatarUrl = computed(() => {
     const u = this.user();
     const prefs = (u?.prefs ?? {}) as Record<string, unknown>;
@@ -102,11 +105,23 @@ export class UserPage {
         // ignore
       }
       this.themeStatus.set('Сохранено');
-      setTimeout(() => this.themeStatus.set(''), 2000);
+      setTimeout(() => {
+        this.themeStatusFadingOut.set(true);
+        setTimeout(() => {
+          this.themeStatus.set('');
+          this.themeStatusFadingOut.set(false);
+        }, 300);
+      }, 2000);
     } catch (err) {
       console.warn('Failed to save theme preference', err);
       this.themeStatus.set('Ошибка');
-      setTimeout(() => this.themeStatus.set(''), 3000);
+      setTimeout(() => {
+        this.themeStatusFadingOut.set(true);
+        setTimeout(() => {
+          this.themeStatus.set('');
+          this.themeStatusFadingOut.set(false);
+        }, 300);
+      }, 3000);
     }
   }
 
@@ -129,11 +144,23 @@ export class UserPage {
       // Upload new avatar
       await this.auth.uploadAvatar(file);
       this.avatarStatus.set('Аватар загружен');
-      setTimeout(() => this.avatarStatus.set(''), 2000);
+      setTimeout(() => {
+        this.avatarStatusFadingOut.set(true);
+        setTimeout(() => {
+          this.avatarStatus.set('');
+          this.avatarStatusFadingOut.set(false);
+        }, 300);
+      }, 2000);
     } catch (err) {
       console.warn('Failed to upload avatar', err);
       this.avatarStatus.set('Ошибка загрузки');
-      setTimeout(() => this.avatarStatus.set(''), 3000);
+      setTimeout(() => {
+        this.avatarStatusFadingOut.set(true);
+        setTimeout(() => {
+          this.avatarStatus.set('');
+          this.avatarStatusFadingOut.set(false);
+        }, 300);
+      }, 3000);
     } finally {
       this.uploadingAvatar.set(false);
       // clear input
@@ -149,11 +176,23 @@ export class UserPage {
     try {
       await this.auth.deleteAvatar(avatarFileId);
       this.avatarStatus.set('Аватар удален');
-      setTimeout(() => this.avatarStatus.set(''), 2000);
+      setTimeout(() => {
+        this.avatarStatusFadingOut.set(true);
+        setTimeout(() => {
+          this.avatarStatus.set('');
+          this.avatarStatusFadingOut.set(false);
+        }, 300);
+      }, 2000);
     } catch (err) {
       console.warn('Failed to delete avatar', err);
       this.avatarStatus.set('Ошибка удаления');
-      setTimeout(() => this.avatarStatus.set(''), 3000);
+      setTimeout(() => {
+        this.avatarStatusFadingOut.set(true);
+        setTimeout(() => {
+          this.avatarStatus.set('');
+          this.avatarStatusFadingOut.set(false);
+        }, 300);
+      }, 3000);
     }
   }
 
@@ -164,10 +203,22 @@ export class UserPage {
     try {
       await this.auth.updateEmail(email, password);
       this.settingsStatus.set('Сохранено');
-      setTimeout(() => this.settingsStatus.set(''), 2000);
+      setTimeout(() => {
+        this.settingsStatusFadingOut.set(true);
+        setTimeout(() => {
+          this.settingsStatus.set('');
+          this.settingsStatusFadingOut.set(false);
+        }, 300);
+      }, 2000);
     } catch {
       this.settingsStatus.set('Ошибка');
-      setTimeout(() => this.settingsStatus.set(''), 2000);
+      setTimeout(() => {
+        this.settingsStatusFadingOut.set(true);
+        setTimeout(() => {
+          this.settingsStatus.set('');
+          this.settingsStatusFadingOut.set(false);
+        }, 300);
+      }, 2000);
     }
   }
 
@@ -178,10 +229,22 @@ export class UserPage {
     try {
       await this.auth.updatePassword(newPass, oldPass);
       this.settingsStatus.set('Сохранено');
-      setTimeout(() => this.settingsStatus.set(''), 2000);
+      setTimeout(() => {
+        this.settingsStatusFadingOut.set(true);
+        setTimeout(() => {
+          this.settingsStatus.set('');
+          this.settingsStatusFadingOut.set(false);
+        }, 300);
+      }, 2000);
     } catch {
       this.settingsStatus.set('Ошибка');
-      setTimeout(() => this.settingsStatus.set(''), 2000);
+      setTimeout(() => {
+        this.settingsStatusFadingOut.set(true);
+        setTimeout(() => {
+          this.settingsStatus.set('');
+          this.settingsStatusFadingOut.set(false);
+        }, 300);
+      }, 2000);
     }
   }
 

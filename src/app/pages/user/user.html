@@ -100,7 +100,8 @@
 
           @if (avatarStatus()) {
             <div
-              class="alert alert-soft mb-4"
+              class="alert alert-soft mb-4 animate-fade-in"
+              [class.animate-fade-out]="avatarStatusFadingOut()"
               [class.alert-success]="
                 avatarStatus().includes('загружен') || avatarStatus().includes('удален')
               "
@@ -409,7 +410,8 @@
 
           @if (settingsStatus()) {
             <div
-              class="alert alert-soft"
+              class="alert alert-soft animate-fade-in"
+              [class.animate-fade-out]="settingsStatusFadingOut()"
               [class.alert-success]="settingsStatus() === 'Сохранено'"
               [class.alert-error]="settingsStatus() === 'Ошибка'"
             >
