@@ -116,6 +116,17 @@ export class UserPage {
     const file = input.files[0];
     this.uploadingAvatar.set(true);
     try {
+      // Check if user already has an avatar and delete it first
+      const u = this.user();
+      const prefs = (u?.prefs ?? {}) as Record<string, unknown>;
+      const existingFileId = (prefs['avatarFileId'] as string | undefined) ?? '';
+
+      if (existingFileId) {
+        // Delete old avatar before uploading new one
+        await this.auth.deleteAvatar(existingFileId);
+      }
+
+      // Upload new avatar
       await this.auth.uploadAvatar(file);
       this.avatarStatus.set('Аватар загружен');
       setTimeout(() => this.avatarStatus.set(''), 2000);
