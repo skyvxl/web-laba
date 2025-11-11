@@ -21,11 +21,13 @@
                 d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
               />
             </svg>
-            Профиль пользователя
+            Данные пользователя
           </h2>
 
           <!-- Avatar Section -->
-          <div class="flex items-center gap-6 mb-6 pb-6 border-b border-base-300">
+          <div
+            class="flex flex-col sm:flex-row items-center gap-6 mb-6 pb-6 border-b border-base-300"
+          >
             <div class="avatar placeholder rounded-full border-2 border-base-content/20">
               <div
                 class="w-24 h-24 rounded-full bg-neutral text-neutral-content flex items-center justify-center"
@@ -37,11 +39,11 @@
                 }
               </div>
             </div>
-            <div class="flex-1">
-              <h3 class="text-2xl font-bold">{{ name() }}</h3>
-              <p class="text-base-content/70">{{ email() }}</p>
-              <div class="flex flex-wrap gap-2 mt-3">
-                <label class="btn btn-sm btn-ghost">
+            <div class="flex-1 w-full">
+              <h3 class="text-2xl font-bold text-center sm:text-left">{{ name() }}</h3>
+              <p class="text-base-content/70 text-center sm:text-left">{{ email() }}</p>
+              <div class="flex flex-col sm:flex-row gap-2 mt-3">
+                <label class="btn btn-sm btn-ghost flex-1 sm:flex-none min-h-8">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-4 w-4 mr-1"
@@ -65,7 +67,10 @@
                   />
                 </label>
                 @if (avatarUrl()) {
-                  <button class="btn btn-sm btn-ghost" (click)="removeAvatar()">
+                  <button
+                    class="btn btn-sm btn-ghost flex-1 sm:flex-none min-h-8"
+                    (click)="removeAvatar()"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       class="h-4 w-4 mr-1"
@@ -84,10 +89,10 @@
                   </button>
                 }
                 @if (uploadingAvatar()) {
-                  <span class="loading loading-spinner loading-sm"></span>
+                  <span class="loading loading-spinner loading-sm mx-auto sm:mx-0"></span>
                 }
               </div>
-              <p class="text-xs text-base-content/60 mt-2">
+              <p class="text-xs text-base-content/60 mt-2 text-center sm:text-left">
                 Максимум 5 МБ. Форматы: jpg, jpeg, png, gif, webp
               </p>
             </div>
@@ -203,17 +208,17 @@
               </svg>
               Тема интерфейса
             </h3>
-            <div class="flex flex-wrap items-center gap-3">
-              <div class="join">
+            <div class="flex flex-col sm:flex-row sm:flex-wrap items-center gap-3">
+              <div class="join w-full sm:w-auto">
                 <button
                   type="button"
-                  class="btn btn-sm join-item"
+                  class="btn btn-sm join-item flex-1"
                   [class.btn-active]="selectedTheme() === 'caramellatte'"
                   (click)="applyLocalTheme('caramellatte')"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4 mr-1"
+                    class="h-4 w-4 sm:mr-1"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -225,17 +230,17 @@
                       d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
                     />
                   </svg>
-                  Светлая
+                  <span class="hidden sm:inline">Светлая</span>
                 </button>
                 <button
                   type="button"
-                  class="btn btn-sm join-item"
+                  class="btn btn-sm join-item flex-1"
                   [class.btn-active]="selectedTheme() === 'cosmicburst'"
                   (click)="applyLocalTheme('cosmicburst')"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4 mr-1"
+                    class="h-4 w-4 sm:mr-1"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -247,12 +252,12 @@
                       d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
                     />
                   </svg>
-                  Тёмная
+                  <span class="hidden sm:inline">Тёмная</span>
                 </button>
               </div>
               <button
                 (click)="saveThemePreference()"
-                class="btn btn-ghost border-2 border-base-content/20 btn-sm"
+                class="btn btn-ghost border-2 border-base-content/20 btn-sm w-full sm:w-auto"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -271,7 +276,7 @@
                 Сохранить в профиле
               </button>
               @if (themeStatus()) {
-                <div class="badge badge-success gap-1">
+                <div class="badge badge-success gap-1 w-full sm:w-auto justify-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-3 w-3"
