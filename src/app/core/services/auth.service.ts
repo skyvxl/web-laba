@@ -269,14 +269,29 @@ export class AuthService {
 
   /**
    * Установить одну или несколько пользовательских настроек в Appwrite prefs
+   * Мержит с существующими preferences, чтобы не потерять другие поля
    */
   async setPreferences(prefs: Record<string, unknown>): Promise<void> {
     try {
       const accountExt = account as unknown as {
         updatePrefs?: (prefs: Record<string, unknown>) => Promise<void>;
+        getPrefs?: () => Promise<Record<string, unknown>>;
       };
       if (typeof accountExt.updatePrefs === 'function') {
-        await accountExt.updatePrefs(prefs);
+        // Сначала получаем текущие preferences
+        let currentPrefs: Record<string, unknown> = {};
+        if (typeof accountExt.getPrefs === 'function') {
+          try {
+            currentPrefs = (await accountExt.getPrefs()) ?? {};
+          } catch {
+            // ignore - используем пустой объект
+          }
+        }
+
+        // Мержим новые preferences с существующими
+        const mergedPrefs = { ...currentPrefs, ...prefs };
+
+        await accountExt.updatePrefs(mergedPrefs);
         // refresh local user state
         await this.checkAuthState();
       }
