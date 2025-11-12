@@ -2,6 +2,7 @@ import { inject, Injectable, PLATFORM_ID, TransferState } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { account, ID, storage } from '../config/appwrite';
+import { AppErrorService } from './app-error.service';
 import { environment } from '../../../environments/environment';
 import type { Models } from 'appwrite';
 
@@ -18,6 +19,7 @@ export class AuthService {
   constructor() {
     this.initPromise = this.initializeAuth();
   }
+  private readonly appError = inject(AppErrorService);
 
   /**
    * Upload user avatar to storage and register it in user prefs.
@@ -171,72 +173,53 @@ export class AuthService {
     name?: string,
     phone?: string,
   ): Promise<Models.User<Models.Preferences>> {
-    let sessionCreated = false;
     const maxRetries = 3;
 
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
-        // Создаём пользователя
+        // Создаём аккаунт - Appwrite проверит уникальность email автоматически
         const user = await account.create(ID.unique(), email, password, name || undefined);
+        console.log('[Register] Account created', { id: user.$id, email: user.email });
 
-        // Создаём сессию сразу, чтобы иметь возможность обновлять телефон
+        // Логинимся
         await this.login(email, password);
-        sessionCreated = true;
+        console.log('[Register] Session created');
 
-        // Если указан телефон, обновляем его ДО завершения регистрации
+        // Если указан телефон - пытаемся его установить (без проверки уникальности)
         if (phone) {
-          const accountExt = account as unknown as {
-            updatePhone?: (args: {
-              phone: string;
-              password?: string;
-            }) => Promise<Models.User<Models.Preferences> | void>;
-            delete?: () => Promise<void>;
-          };
-          if (typeof accountExt.updatePhone === 'function') {
-            await accountExt.updatePhone({ phone, password });
-            await this.checkAuthState();
-          }
-        }
-
-        return user;
-      } catch (err: unknown) {
-        // Если произошла ошибка после создания аккаунта, удаляем его
-        if (sessionCreated) {
           try {
             const accountExt = account as unknown as {
-              delete?: () => Promise<void>;
+              updatePhone?: (args: { phone: string; password?: string }) => Promise<unknown>;
             };
-            if (typeof accountExt.delete === 'function') {
-              await accountExt.delete();
+            if (typeof accountExt.updatePhone === 'function') {
+              await accountExt.updatePhone({ phone, password });
+              console.log('[Register] Phone set:', phone);
             }
-          } catch (deleteErr) {
-            console.warn('Failed to delete user after registration error', deleteErr);
+          } catch (phoneErr) {
+            // Игнорируем ошибки телефона - не критично
+            console.warn('[Register] Failed to set phone (ignoring)', phoneErr);
           }
-          sessionCreated = false; // Reset flag for potential retry
         }
 
-        // Обрабатываем специфичные ошибки
-        const msg = ((err as Error)?.message ?? String(err)).toLowerCase();
+        await this.checkAuthState();
+        console.log('[Register] Registration completed');
+        return user;
+      } catch (err: unknown) {
+        const parsed = this.appError.parse(err);
 
-        // Проверяем именно ошибку телефона (phone already exists или phone_already_exists)
-        if (msg.includes('phone') && msg.includes('already')) {
-          throw new Error('phone_already_exists');
+        // Email уже существует
+        if (parsed.code === 'email_already_exists') {
+          throw new Error('email_already_exists');
         }
 
-        // Проверяем rate limit - можно retry
-        const isRateLimitError =
-          err instanceof Error &&
-          (msg.includes('rate limit') || msg.includes('429') || msg.includes('too many'));
-
-        // Если это не последняя попытка и ошибка rate limit - ретраим
-        if (attempt < maxRetries && isRateLimitError) {
-          const delay = 1000 * attempt; // 1s, 2s, 3s
-          console.warn(`Registration rate limited, retrying in ${delay}ms...`);
+        // Rate limit - пробуем ещё раз
+        if (parsed.code === 'rate_limit' && attempt < maxRetries) {
+          const delay = 1000 * attempt;
+          console.warn(`[Register] Rate limited, retrying in ${delay}ms...`);
           await new Promise((resolve) => setTimeout(resolve, delay));
           continue;
         }
 
-        console.warn('Failed to register user', err);
         throw err;
       }
     }

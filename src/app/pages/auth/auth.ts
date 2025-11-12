@@ -1,6 +1,7 @@
 import { Component, signal, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { AppErrorService } from '../../core/services/app-error.service';
 import { BaseInput } from '../../shared/components/base-input/base-input';
 
 @Component({
@@ -12,6 +13,7 @@ import { BaseInput } from '../../shared/components/base-input/base-input';
 })
 export class Auth {
   private authService = inject(AuthService);
+  private appError = inject(AppErrorService);
   private router = inject(Router);
 
   // Login form
@@ -51,8 +53,9 @@ export class Auth {
       .then(() => {
         this.router.navigate(['/']);
       })
-      .catch(() => {
-        this.loginErrorMsg.set('Неверный email или пароль');
+      .catch((err) => {
+        const parsed = this.appError.parse(err);
+        this.loginErrorMsg.set(parsed.message || 'Неверный email или пароль');
       })
       .finally(() => {
         this.loginLoading.set(false);
@@ -146,46 +149,35 @@ export class Auth {
         this.router.navigate(['/']);
       })
       .catch((error) => {
-        const msg = (error?.message || '') as string;
-        const server = JSON.stringify(error || {});
-
-        // Подробные проверки на распространённые политики паролей Appwrite
-        if (
-          msg.includes('user_already_exists') ||
-          msg.includes('already exists') ||
-          server.includes('user_already_exists')
-        ) {
-          this.registerErrorMsg.set('Этот email уже используется');
-        } else if (
-          msg.toLowerCase().includes('history') ||
-          server.toLowerCase().includes('password_history')
-        ) {
-          this.registerErrorMsg.set('Нельзя использовать один из ваших недавних паролей');
-        } else if (
-          msg.toLowerCase().includes('dictionary') ||
-          msg.toLowerCase().includes('common') ||
-          server.toLowerCase().includes('password_dictionary')
-        ) {
-          this.registerErrorMsg.set('Пароль слишком простой или часто используемый');
-        } else if (
-          msg.toLowerCase().includes('personal') ||
-          msg.toLowerCase().includes('contains') ||
-          server.toLowerCase().includes('personal')
-        ) {
-          this.registerErrorMsg.set('Пароль не должен содержать ваше имя, email или телефон');
-        } else if (
-          msg.toLowerCase().includes('short') ||
-          msg.toLowerCase().includes('weak') ||
-          msg.toLowerCase().includes('length')
-        ) {
-          this.registerErrorMsg.set('Пароль должен содержать минимум 8 символов');
-        } else {
-          // fallback — если Appwrite отдаст структуру error.message или error.response
-          if (msg === 'phone_already_exists') {
+        const parsed = this.appError.parse(error);
+        switch (parsed.code) {
+          case 'phone_already_exists':
             this.registerErrorMsg.set('Этот номер уже зарегистрирован');
-          } else {
-            this.registerErrorMsg.set(msg || 'Ошибка регистрации');
-          }
+            break;
+          case 'email_already_exists':
+            this.registerErrorMsg.set('Этот email уже используется');
+            break;
+          case 'invalid_password':
+            this.registerErrorMsg.set('Неверный пароль');
+            break;
+          case 'password_history':
+            this.registerErrorMsg.set('Нельзя использовать один из ваших недавних паролей');
+            break;
+          case 'password_dictionary':
+            this.registerErrorMsg.set('Пароль слишком простой или часто используемый');
+            break;
+          case 'password_personal':
+            this.registerErrorMsg.set('Пароль не должен содержать ваше имя, email или телефон');
+            break;
+          case 'password_too_short':
+            this.registerErrorMsg.set('Пароль должен содержать минимум 8 символов');
+            break;
+          case 'resource_already_exists':
+            this.registerErrorMsg.set(parsed.message || 'Запись уже существует');
+            break;
+          default:
+            this.registerErrorMsg.set(parsed.message || 'Ошибка регистрации');
+            break;
         }
       })
       .finally(() => {

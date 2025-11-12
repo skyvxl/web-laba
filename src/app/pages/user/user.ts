@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../core/services/auth.service';
+import { AppErrorService } from '../../core/services/app-error.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -19,6 +20,7 @@ import { Router } from '@angular/router';
 })
 export class UserPage {
   private readonly auth = inject(AuthService);
+  private readonly appError = inject(AppErrorService);
   private router: Router = inject(Router);
 
   user = toSignal(this.auth.getAuthState(), { initialValue: null });
@@ -153,7 +155,8 @@ export class UserPage {
       }, 2000);
     } catch (err) {
       console.warn('Failed to upload avatar', err);
-      this.avatarStatus.set('Ошибка загрузки');
+      const parsed = this.appError.parse(err);
+      this.avatarStatus.set(parsed.message || 'Ошибка загрузки');
       setTimeout(() => {
         this.avatarStatusFadingOut.set(true);
         setTimeout(() => {
@@ -185,7 +188,8 @@ export class UserPage {
       }, 2000);
     } catch (err) {
       console.warn('Failed to delete avatar', err);
-      this.avatarStatus.set('Ошибка удаления');
+      const parsed = this.appError.parse(err);
+      this.avatarStatus.set(parsed.message || 'Ошибка удаления');
       setTimeout(() => {
         this.avatarStatusFadingOut.set(true);
         setTimeout(() => {
@@ -210,8 +214,10 @@ export class UserPage {
           this.settingsStatusFadingOut.set(false);
         }, 300);
       }, 2000);
-    } catch {
-      this.settingsStatus.set('Ошибка');
+    } catch (err: unknown) {
+      const parsed = this.appError.parse(err);
+      this.settingsStatus.set(parsed.message || 'Ошибка');
+
       setTimeout(() => {
         this.settingsStatusFadingOut.set(true);
         setTimeout(() => {
@@ -236,8 +242,9 @@ export class UserPage {
           this.settingsStatusFadingOut.set(false);
         }, 300);
       }, 2000);
-    } catch {
-      this.settingsStatus.set('Ошибка');
+    } catch (err: unknown) {
+      const parsed = this.appError.parse(err);
+      this.settingsStatus.set(parsed.message || 'Ошибка');
       setTimeout(() => {
         this.settingsStatusFadingOut.set(true);
         setTimeout(() => {
