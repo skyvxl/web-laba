@@ -171,47 +171,77 @@ export class AuthService {
     name?: string,
     phone?: string,
   ): Promise<Models.User<Models.Preferences>> {
-    const user = await account.create(ID.unique(), email, password, name || undefined);
+    let sessionCreated = false;
+    const maxRetries = 3;
 
-    // Создаём сессию
-    await this.login(email, password);
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        // Создаём пользователя
+        const user = await account.create(ID.unique(), email, password, name || undefined);
 
-    try {
-      if (phone) {
-        // optional extended methods on Appwrite Account (some SDK versions include these)
-        const accountExt = account as unknown as {
-          updatePhone?: (args: {
-            phone: string;
-            password?: string;
-          }) => Promise<Models.User<Models.Preferences> | void>;
-          delete?: () => Promise<void>;
-        };
-        if (typeof accountExt.updatePhone === 'function') {
-          try {
+        // Создаём сессию сразу, чтобы иметь возможность обновлять телефон
+        await this.login(email, password);
+        sessionCreated = true;
+
+        // Если указан телефон, обновляем его ДО завершения регистрации
+        if (phone) {
+          const accountExt = account as unknown as {
+            updatePhone?: (args: {
+              phone: string;
+              password?: string;
+            }) => Promise<Models.User<Models.Preferences> | void>;
+            delete?: () => Promise<void>;
+          };
+          if (typeof accountExt.updatePhone === 'function') {
             await accountExt.updatePhone({ phone, password });
             await this.checkAuthState();
-          } catch (err: unknown) {
-            // If phone already exists, cleanup and rethrow notable error
-            const msg = ((err as Error)?.message ?? String(err)).toLowerCase();
-            if (msg.includes('phone') || msg.includes('already')) {
-              try {
-                // delete the created user and logout - use account.delete() to remove current user if available
-                if (typeof accountExt.delete === 'function') await accountExt.delete();
-              } catch {
-                // ignore
-              }
-              throw new Error('phone_already_exists');
-            }
-            throw err;
           }
         }
+
+        return user;
+      } catch (err: unknown) {
+        // Если произошла ошибка после создания аккаунта, удаляем его
+        if (sessionCreated) {
+          try {
+            const accountExt = account as unknown as {
+              delete?: () => Promise<void>;
+            };
+            if (typeof accountExt.delete === 'function') {
+              await accountExt.delete();
+            }
+          } catch (deleteErr) {
+            console.warn('Failed to delete user after registration error', deleteErr);
+          }
+          sessionCreated = false; // Reset flag for potential retry
+        }
+
+        // Обрабатываем специфичные ошибки
+        const msg = ((err as Error)?.message ?? String(err)).toLowerCase();
+
+        // Проверяем именно ошибку телефона (phone already exists или phone_already_exists)
+        if (msg.includes('phone') && msg.includes('already')) {
+          throw new Error('phone_already_exists');
+        }
+
+        // Проверяем rate limit - можно retry
+        const isRateLimitError =
+          err instanceof Error &&
+          (msg.includes('rate limit') || msg.includes('429') || msg.includes('too many'));
+
+        // Если это не последняя попытка и ошибка rate limit - ретраим
+        if (attempt < maxRetries && isRateLimitError) {
+          const delay = 1000 * attempt; // 1s, 2s, 3s
+          console.warn(`Registration rate limited, retrying in ${delay}ms...`);
+          await new Promise((resolve) => setTimeout(resolve, delay));
+          continue;
+        }
+
+        console.warn('Failed to register user', err);
+        throw err;
       }
-    } catch (err: unknown) {
-      console.warn('Failed to update phone on register', err);
-      throw err;
     }
 
-    return user;
+    throw new Error('Registration failed after retries');
   }
 
   async logout(): Promise<void> {
